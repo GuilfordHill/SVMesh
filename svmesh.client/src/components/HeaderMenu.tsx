@@ -20,15 +20,19 @@ const NavigationButton = styled(Button)(({ theme }) => ({
   fontWeight: 500,
   textTransform: "none",
   marginLeft: "16px",
+  color: theme.palette.primary.main,
   "&:hover": {
-    backgroundColor: "rgba(255, 255, 255, .4)",
-    color: theme.palette.primary.main,
+    backgroundColor: "rgba(24, 63, 65, 0.1)",
+    color: theme.palette.primary.dark,
   },
 }));
 
 export default function HeaderMenu() {
   return (
-    <AppBar position="static" color="primary" sx={{ width: "100%" }}>
+    <AppBar
+      position="static"
+      sx={{ width: "100%", backgroundColor: "#f6eedf", zIndex: 1300 }}
+    >
       <Toolbar sx={{ justifyContent: "space-between" }}>
         <Stack direction="row" alignItems="center" spacing={2}>
           <img
@@ -44,9 +48,9 @@ export default function HeaderMenu() {
             variant="h6"
             color="primary"
             component="div"
-            sx={{ fontWeight: "bold" }}
+            sx={{ fontWeight: "bold", letterSpacing: "-0.5px" }}
           >
-            Susquehanna Valley Meshtastic
+            Susquehanna Valley Mesh
           </Typography>
         </Stack>
         <Box>
