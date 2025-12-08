@@ -10,17 +10,17 @@ const assetMap: Record<string, string> = {
   "tbeam.jpg": tBeam,
 };
 
-export default function GettingStarted() {
+export default function ChannelSettings() {
   const [pageData, setPageData] = useState<ParsedPage | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadPageContent = async () => {
       try {
-        const data = await parsePageMarkdown("getting-started");
+        const data = await parsePageMarkdown("channel-settings");
         setPageData(data);
       } catch (error) {
-        console.error("Failed to load getting started content:", error);
+        console.error("Failed to load channel settings content:", error);
       } finally {
         setLoading(false);
       }
@@ -53,7 +53,7 @@ export default function GettingStarted() {
         backgroundImage={
           metadata.heroImage ? assetMap[metadata.heroImage] : tBeam
         }
-        title={metadata.title || "Getting Started"}
+        title={metadata.title || "Channel Settings"}
         subtitle={metadata.subtitle || ""}
         backgroundPosition="center 70%"
         attributionUrl={metadata.attributionUrl}

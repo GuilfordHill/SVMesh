@@ -1,56 +1,81 @@
-import susquehannaValley from "../assets/susquehanna-valley.jpg";
-import meshtasticPowered from "../assets/meshtastic-powered.png";
+import { useEffect, useState } from "react";
 import RecentUpdates from "../components/RecentUpdates";
+import MarkdownContent from "../components/MarkdownContent";
 import {
   HeroSection,
   PageSection,
   ContentGrid,
   StyledText,
-  StyledLink,
 } from "../components/ui";
+import { parsePageMarkdown, type ParsedPage } from "../utils/pageMarkdown";
+
+// Import assets dynamically based on markdown
+import susquehannaValley from "../assets/susquehanna-valley.jpg";
+import meshtasticPowered from "../assets/meshtastic-powered.png";
+
+const assetMap: Record<string, string> = {
+  "susquehanna-valley.jpg": susquehannaValley,
+  "meshtastic-powered.png": meshtasticPowered,
+};
 
 export default function Home() {
+  const [pageData, setPageData] = useState<ParsedPage | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const loadPageContent = async () => {
+      try {
+        const data = await parsePageMarkdown("home");
+        setPageData(data);
+      } catch (error) {
+        console.error("Failed to load home page content:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadPageContent();
+  }, []);
+
+  if (loading) {
+    return (
+      <PageSection>
+        <StyledText type="body">Loading...</StyledText>
+      </PageSection>
+    );
+  }
+
+  if (!pageData) {
+    return (
+      <PageSection>
+        <StyledText type="body">Failed to load page content.</StyledText>
+      </PageSection>
+    );
+  }
+
+  const { metadata, content } = pageData;
+
   return (
     <>
       <HeroSection
-        backgroundImage={susquehannaValley}
-        title="We mesh well together."
-        subtitle="We're a community group dedicated to connecting the Susquehanna Valley together using low-power, long-range radio devices."
+        backgroundImage={
+          metadata.heroImage ? assetMap[metadata.heroImage] : susquehannaValley
+        }
+        title={metadata.title || "We mesh well together."}
+        subtitle={metadata.subtitle || ""}
         textAlign="left"
-        rightImage={meshtasticPowered}
-        rightImageAlt="Meshtastic Powered"
-        attributionUrl="https://commons.wikimedia.org/wiki/File:Ridges_and_valleys_near_the_West_Branch_Susquehanna_River.jpg"
+        rightImage={
+          metadata.rightImage ? assetMap[metadata.rightImage] : undefined
+        }
+        rightImageAlt={metadata.rightImageAlt || ""}
+        attributionUrl={metadata.attributionUrl || ""}
       />
 
       <PageSection>
         <ContentGrid
           mainContent={
             <>
-              <StyledText type="heading" component="h2">
-                What is a mesh?
-              </StyledText>
-              <StyledText type="body-large">
-                A mesh is a decentralized network of devices that communicate
-                with each other directly, rather than relying on a central hub
-                or internet connection. This allows for greater resilience, as
-                the network can adapt and reroute data even if some nodes go
-                offline. We use low-power, long-range radio boards to create
-                these connections, enabling devices to communicate over
-                distances that traditional Wi-Fi or Bluetooth cannot cover. We
-                currently utilize the Meshtastic open-source project to power
-                our mesh network, which requires no amateur radio license.
-              </StyledText>
-              <StyledText type="heading" component="h2" marginTop={4}>
-                How do I get started?
-              </StyledText>
-              <StyledText type="body-large">
-                To get started, You will need a node. A node is a device that
-                participates in the mesh network. These can be bought pre-built
-                or built yourself using readily available boards. Once you have
-                a node, you can follow our{" "}
-                <StyledLink href="/getting-started">Getting Started</StyledLink>{" "}
-                guide to set it up and join the mesh network.
-              </StyledText>
+              <MarkdownContent content={content} />
             </>
           }
           sideContent={<RecentUpdates />}

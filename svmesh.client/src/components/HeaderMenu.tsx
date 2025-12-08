@@ -16,7 +16,8 @@ import { useState } from "react";
 const links = [
   { name: "Home", href: "/" },
   { name: "Getting Started", href: "/getting-started" },
-  { name: "Best Practices", href: "/best-practices" },
+  { name: "Channel Settings", href: "/channel-settings" },
+  { name: "Maps", href: "/maps" },
   { name: "Hardware", href: "/hardware" },
   { name: "Resources", href: "/resources" },
 ];
@@ -80,7 +81,7 @@ export default function HeaderMenu() {
                 },
               }}
             >
-              Susquehanna Valley Meshtastic
+              Susquehanna Valley Mesh
             </Typography>
           </Stack>
         </Link>

@@ -1,4 +1,4 @@
-import { Grid, Typography, Box } from "@mui/material";
+import { Typography, Box } from "@mui/material";
 import type { ReactNode } from "react";
 
 interface PageSectionProps {
