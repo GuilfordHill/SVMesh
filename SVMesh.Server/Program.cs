@@ -1,16 +1,35 @@
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
 builder.Services.AddControllers();
+builder.Services.AddHealthChecks();
+
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-var app = builder.Build();
+// Configure CORS for production
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("ProductionPolicy", policy =>
+    {
+        policy.WithOrigins("https://your-domain.com") // Update with your actual domain
+              .AllowAnyMethod()
+              .AllowAnyHeader()
+              .AllowCredentials();
+    });
+});
 
-app.UseDefaultFiles();
-app.UseStaticFiles();
+// Security headers
+builder.Services.AddAntiforgery();
+builder.Services.AddHsts(options =>
+{
+    options.Preload = true;
+    options.IncludeSubDomains = true;
+    options.MaxAge = TimeSpan.FromDays(365);
+});
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -18,13 +37,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+else
+{
+    app.UseHsts();
+    app.UseExceptionHandler("/Error");
+}
 
-app.UseHttpsRedirection();
+// Security middleware
+app.UseForwardedHeaders();
 
+// CORS
+app.UseCors("ProductionPolicy");
+
+// Static files and routing
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
+app.UseRouting();
 app.UseAuthorization();
 
-app.MapControllers();
+// Health check endpoint
+app.MapHealthChecks("/health");
 
+app.MapControllers();
 app.MapFallbackToFile("/index.html");
 
 app.Run();
