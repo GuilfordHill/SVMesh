@@ -29,8 +29,8 @@ Development boards allow you to build your own node, if you purchase or fabricat
 
 ## Setting Up Your Device
 
-::critical[Important Safety Information]
-Always follow proper electrical safety procedures when working with electronic devices. Never leave charging devices unattended and ensure proper ventilation when using devices for extended periods.
+::critical[Before Powering On Your Node]
+Ensure any radio antennas are connected to your node before powering on for the first time! Radio modules can burn themselves out when trying to broadcast without an antenna connected, which can cause reduced transmit performance at best and total destruction of the internal circuits at worst.
 ::critical
 
 ::warning[Firmware Compatibility]

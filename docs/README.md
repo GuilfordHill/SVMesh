@@ -24,7 +24,15 @@ Comprehensive security documentation covering:
 - Production security checklist
 - Incident response procedures
 
-## Quick Start
+### [Markdown Guide](markdown-guide.md)
+Complete reference for content creation and formatting:
+- Standard markdown syntax with Material-UI styling
+- Special banner components (info, warning, critical)
+- Frontmatter configuration for pages and updates
+- Content organization and best practices
+- Examples and formatting guidelines
+
+## 🚀 Quick Start
 
 For new deployments, start with the [Deployment Guide](deployment-guide.md). If you want the simplest and most secure setup, follow the Cloudflare Tunnel option.
 
