@@ -14,8 +14,12 @@ export interface ParsedPage {
 
 export async function parsePageMarkdown(pageName: string): Promise<ParsedPage> {
   try {
-    const module = await import(`../content/pages/${pageName}.md?raw`);
-    const rawContent = module.default;
+    // Fetch the markdown file from the server
+    const response = await fetch(`/content/pages/${pageName}.md`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch page: ${response.status}`);
+    }
+    const rawContent = await response.text();
 
     // Parse frontmatter
     const frontmatterMatch = rawContent.match(

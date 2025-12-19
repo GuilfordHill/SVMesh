@@ -11,10 +11,10 @@ export interface UpdatePost {
   slug: string;
 }
 
-export async function parseMarkdownPost(
+export function parseMarkdownPost(
   markdownContent: string,
   slug: string
-): Promise<UpdatePost> {
+): UpdatePost {
   // Extract frontmatter
   const frontmatterRegex = /^---\n([\s\S]*?)\n---\n([\s\S]*)$/;
   const match = markdownContent.match(frontmatterRegex);

@@ -46,11 +46,13 @@ services:
     container_name: svmesh-app
     expose:
       - "8080"
+    volumes:
+      - ./pages:/app/wwwroot/content/pages:ro
+      - ./updates:/app/wwwroot/content/updates:ro
+      - app-data:/app/data
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:8080
-    volumes:
-      - app-data:/app/data
     restart: unless-stopped
     security_opt:
       - no-new-privileges:true
