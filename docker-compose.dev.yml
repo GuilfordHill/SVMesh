@@ -1,0 +1,123 @@
+services:
+  # Development database (if needed)
+  # postgres:
+  #   image: postgres:15-alpine
+  #   container_name: svmesh-dev-db
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_DB: svmesh_dev
+  #     POSTGRES_USER: svmesh
+  #     POSTGRES_PASSWORD: dev_password
+  #   volumes:
+  #     - postgres_dev_data:/var/lib/postgresql/data
+  #   networks:
+  #     - svmesh-dev
+
+  # Nginx for development (simpler config, exposed ports)
+  nginx-dev:
+    image: nginx:alpine
+    container_name: svmesh-dev-nginx
+    ports:
+      - "8080:80"  # Exposed port for easy access
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./logs:/var/log/nginx
+    depends_on:
+      - svmesh-dev
+    restart: unless-stopped
+    networks:
+      - svmesh-dev
+
+  # SVMesh application in development mode
+  svmesh-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: development  # If you add a development stage
+    container_name: svmesh-dev-app
+    ports:
+      - "5000:5000"  # Direct access to API for debugging
+      - "5001:5001"  # HTTPS port
+    volumes:
+      # Mount source code for hot reload (if configured)
+      - ./SVMesh.Server:/app/SVMesh.Server
+      - ./pages:/app/wwwroot/content/pages
+      - ./updates:/app/wwwroot/content/updates
+      - ./logs:/app/logs
+      # Development data volume
+      - dev-app-data:/app/data
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5000;https://+:5001
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=password
+      # Database connection (if using)
+      # - DATABASE_URL=postgresql://svmesh:dev_password@postgres:5432/svmesh_dev
+    working_dir: /app
+    networks:
+      - svmesh-dev
+    # Remove production security restrictions for easier debugging
+    # security_opt and read_only removed for development flexibility
+
+  # Frontend development server (React with Vite)
+  frontend-dev:
+    build:
+      context: ./svmesh.client
+      dockerfile: Dockerfile.dev  # You might want to create this
+    container_name: svmesh-dev-frontend
+    ports:
+      - "5173:5173"  # Vite dev server default port
+      - "24678:24678"  # Vite HMR port
+    volumes:
+      # Mount entire client source for hot reload
+      - ./svmesh.client:/app
+      - /app/node_modules  # Anonymous volume for node_modules
+    environment:
+      - NODE_ENV=development
+      - VITE_API_URL=http://localhost:5000
+      - VITE_HMR_PORT=24678
+    working_dir: /app
+    command: npm run dev -- --host 0.0.0.0
+    networks:
+      - svmesh-dev
+    stdin_open: true  # Keep container running
+    tty: true
+
+  # Redis for development (if needed for caching/sessions)
+  # redis-dev:
+  #   image: redis:7-alpine
+  #   container_name: svmesh-dev-redis
+  #   ports:
+  #     - "6379:6379"
+  #   volumes:
+  #     - redis_dev_data:/data
+  #   networks:
+  #     - svmesh-dev
+
+  # Development tools container (optional)
+  dev-tools:
+    image: mcr.microsoft.com/dotnet/sdk:8.0
+    container_name: svmesh-dev-tools
+    volumes:
+      - .:/workspace
+      - ~/.nuget/packages:/home/app/.nuget/packages  # Cache packages
+    working_dir: /workspace
+    networks:
+      - svmesh-dev
+    profiles:
+      - tools  # Only start with --profile tools
+    command: tail -f /dev/null  # Keep container running
+
+volumes:
+  dev-app-data:
+    driver: local
+  # postgres_dev_data:
+  #   driver: local
+  # redis_dev_data:
+  #   driver: local
+
+networks:
+  svmesh-dev:
+    name: svmesh-dev-network
+    driver: bridge
