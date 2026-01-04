@@ -27,18 +27,16 @@ These are not the only nodes available. There are nother devices on the market t
 
 Development boards allow you to build your own node, if you purchase or fabricate an enclosure. There are two main categories of devboards, ESP32-based and nRF52-based. ESP32-based boards have WiFi support, so you can connect the node to your network to use it network-wide.These baords also have more on-board storage, meaning your database of nodes can be around 200 entries as opposed to nRF-based boards having roughly 80. These ESP32 boards consume far more power than nRF-based boards, however, so they are far more suitable for stationary use in a place with constant power. nRF-based boards sip power in comparison, making them more ideal for solar-based setups and portable nodes where battery life is of high importance. A full list of compatible development boards is available on [Meshtastic’s site](https://meshtastic.org/docs/hardware/devices/).
 
-## Setting Up Your Device
+## Setting Up Your Node
+
+Once you have your hardware, follow these steps to get your node online!
 
 ::critical[Before Powering On Your Node]
 Ensure any radio antennas are connected to your node before powering on for the first time! Radio modules can burn themselves out when trying to broadcast without an antenna connected, which can cause reduced transmit performance at best and total destruction of the internal circuits at worst.
 ::critical
 
-::warning[Firmware Compatibility]
-Make sure to download the correct firmware version for your specific hardware model. Installing incorrect firmware can render your device inoperable.
-::warning
+It is highly recommended to flash your device with the latest firmware before first boot. To do so, head to the [Meshtastic web flasher](https://flasher.meshtastic.org/), making sure you select the correct board for your node.
 
-::info[Community Support]
-Join our Discord server for real-time help with setup and configuration. Our community members are always happy to assist newcomers.
-::info
+Now your device should be powered on and ready to go! Before you can talk, you must set your region. Connect to your node using the [Meshtastic web client](https://client.meshtastic.org/) or the Meshtastic companion app on your mobile device. Head to `Settings > LoRa`, and set your region to `US`. **After your region is set, your node will restart and begin transmitting. Make sure your antenna is connected!**
 
-Once you have your hardware, follow these steps to get connected to our network. We'll provide detailed instructions for flashing firmware, configuring your device, and joining our community channels.
+After your node reboots, you will have to head to our [Channel Settings] page to get the latest channel settings to connect to our mesh. After your settings are set, you're good to go!

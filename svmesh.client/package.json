@@ -11,20 +11,21 @@
     "preview": "vite preview",
     "type-check": "tsc --noEmit",
     "clean": "rm -rf dist node_modules/.vite",
-    "dev:docker": "docker-compose -f ../docker-compose.dev.yml up"
+    "dev:docker": "docker-compose -f ../configs/docker-compose.dev.yml up"
   },
   "dependencies": {
     "@emotion/styled": "^11.14.1",
     "@mui/icons-material": "^7.3.6",
     "@mui/lab": "^7.0.1-beta.20",
-    "@mui/material": "^7.3.4",
+    "@mui/material": "^7.3.6",
     "@mui/styled-engine": "^7.3.3",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "react-markdown": "^10.1.0",
     "react-router": "^7.9.4",
     "rehype-raw": "^7.0.0",
-    "rehype-sanitize": "^6.0.0"
+    "rehype-sanitize": "^6.0.0",
+    "remark-gfm": "^4.0.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.36.0",

@@ -50,7 +50,7 @@ The upcoming website for the Susquehanna Valley Mesh, serving the centeral Penns
 
    ```bash
    # Option 1: Using Docker Compose for development (recommended)
-   docker-compose -f docker-compose.dev.yml up
+   docker-compose -f configs/docker-compose.dev.yml up
 
    # Option 2: Run components separately for active development
    # Terminal 1 - Backend
@@ -80,28 +80,27 @@ For production deployments, see our comprehensive documentation:
 
 ```
 svmesh/
-├── docs/                          # Comprehensive documentation
-│   ├── deployment-guide.md        # Production deployment guide
-│   ├── traefik-static-ip-setup.md # Traefik reverse proxy setup
-│   └── security-guide.md          # Security best practices
+├── configs/                       # Deployment configs (compose variants, nginx/traefik)
+│   ├── docker-compose.dev.yml
+│   ├── docker-compose.prod.yml
+│   ├── docker-compose.cloudflare-backup.yml
+│   └── nginx.conf.traefik
+├── docs/                          # Operations and security docs
+├── pages/                         # Markdown pages served at /content/pages
+├── updates/                       # Markdown update posts served at /content/updates
 ├── SVMesh.Server/                 # ASP.NET Core backend
-│   ├── Controllers/               # API controllers
-│   ├── Properties/                # Launch settings
-│   ├── Program.cs                 # Application entry point
-│   └── *.csproj                   # Project configuration
-├── svmesh.client/                 # React frontend
-│   ├── src/                       # Source code
-│   │   ├── components/            # Reusable components
-│   │   ├── pages/                 # Page components
-│   │   ├── layouts/               # Layout components
-│   │   └── utils/                 # Utility functions
-│   ├── public/                    # Static assets
-│   └── package.json               # NPM dependencies
-├── docker-compose.yml             # Production containers
+│   ├── Controllers/
+│   ├── Properties/
+│   ├── Program.cs
+│   └── SVMesh.Server.csproj
+├── svmesh.client/                 # React frontend (Vite + MUI)
+│   ├── src/
+│   ├── public/
+│   └── package.json
+├── docker-compose.yml             # Default compose (production-like)
 ├── Dockerfile                     # Multi-stage build
-├── nginx.conf                     # Nginx configuration
-├── nginx.conf.traefik             # Traefik-optimized config
-├── traefik-config-example.yml     # Example Traefik config
+├── nginx.conf                     # Local nginx config
+├── QUICKSTART.md                  # Quick run instructions
 └── README.md                      # This file
 ```
 

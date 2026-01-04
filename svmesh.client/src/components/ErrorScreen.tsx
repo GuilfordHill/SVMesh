@@ -1,4 +1,5 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
+import { useRouteError, useNavigate } from "react-router";
 import { StyledText } from "./ui";
 import svmeshLogo from "../assets/svmesh.png";
 
@@ -7,7 +8,14 @@ interface ErrorScreenProps {
   resetError?: () => void;
 }
 
-export default function ErrorScreen({ error }: ErrorScreenProps) {
+export default function ErrorScreen({ error: propError }: ErrorScreenProps) {
+  const routeError = useRouteError();
+  const navigate = useNavigate();
+  
+  // Get error message from either the prop or the route error
+  const error = propError || (routeError instanceof Error ? routeError : null);
+  const errorMessage = error?.message || (typeof routeError === 'string' ? routeError : 'Unknown error');
+
   return (
     <Box
       sx={{
@@ -21,6 +29,7 @@ export default function ErrorScreen({ error }: ErrorScreenProps) {
         alignItems: "center",
         justifyContent: "center",
         px: 2,
+        zIndex: 9999,
       }}
     >
       <Box sx={{ textAlign: "center", maxWidth: "600px" }}>
@@ -60,7 +69,7 @@ export default function ErrorScreen({ error }: ErrorScreenProps) {
           We're sorry, but it looks like something went wrong.
         </StyledText>
 
-        {error && (
+        {errorMessage && (
           <Box
             sx={{
               backgroundColor: "background.paper",
@@ -83,10 +92,19 @@ export default function ErrorScreen({ error }: ErrorScreenProps) {
             >
               <strong>Error Details:</strong>
               <br />
-              {error.message}
+              {errorMessage}
             </StyledText>
           </Box>
         )}
+
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => navigate("/")}
+          sx={{ mt: 2 }}
+        >
+          Go to Home
+        </Button>
       </Box>
 
       {/* Logo at bottom of screen */}

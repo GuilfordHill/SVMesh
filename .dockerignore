@@ -5,9 +5,9 @@
 .gitignore
 .gitattributes
 
-# Documentation (keep essential docs small)
-*.md
-!README.md
+# Documentation
+# Keep docs available to build contexts (remove blanket markdown ignore)
+# If size becomes an issue, ignore specific large assets instead.
 
 # IDE/Editor files
 .vscode/

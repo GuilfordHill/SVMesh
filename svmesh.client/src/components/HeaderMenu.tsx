@@ -12,15 +12,7 @@ import svmeshLogo from "../assets/svmesh.png";
 import { Stack, useMediaQuery, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-
-const links = [
-  { name: "Home", href: "/" },
-  { name: "Getting Started", href: "/getting-started" },
-  { name: "Channel Settings", href: "/channel-settings" },
-  { name: "Maps", href: "/maps" },
-  { name: "Hardware", href: "/hardware" },
-  { name: "Resources", href: "/resources" },
-];
+import { useMenuItems } from "../hooks/useMenuItems";
 
 const NavigationButton = styled(Button)(({ theme }) => ({
   fontWeight: 500,
@@ -34,7 +26,9 @@ const NavigationButton = styled(Button)(({ theme }) => ({
 }));
 
 export default function HeaderMenu() {
+  const links = useMenuItems();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [shouldError, setShouldError] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -45,6 +39,14 @@ export default function HeaderMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const handleTestError = () => {
+    setShouldError(true);
+  };
+
+  if (shouldError) {
+    throw new Error("Test error triggered from header!");
+  }
 
   return (
     <AppBar
@@ -121,6 +123,18 @@ export default function HeaderMenu() {
                   </Link>
                 </MenuItem>
               ))}
+              <MenuItem onClick={handleTestError}>
+                <Typography
+                  sx={{
+                    color: "error.main",
+                    fontWeight: 500,
+                    py: 1,
+                    px: 2,
+                  }}
+                >
+                  Test Error
+                </Typography>
+              </MenuItem>
             </Menu>
           </Box>
         ) : (
@@ -136,6 +150,15 @@ export default function HeaderMenu() {
                 </Typography>
               </NavigationButton>
             ))}
+            <NavigationButton
+              color="secondary"
+              onClick={handleTestError}
+              sx={{ color: "error.main" }}
+            >
+              <Typography variant="button" color="inherit">
+                Test Error
+              </Typography>
+            </NavigationButton>
           </Box>
         )}
       </Toolbar>

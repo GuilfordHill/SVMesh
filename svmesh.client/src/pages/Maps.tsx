@@ -1,7 +1,8 @@
-import { Box, Paper, Typography } from "@mui/material";
+import { Box, Typography, Card, CardContent, CardActionArea } from "@mui/material";
 import { StyledText } from "../components/ui";
 import HeroSection from "../components/ui/HeroSection";
 import susquehannaImage from "../assets/susquehanna-valley.jpg";
+import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
 // Page data for the Maps page
 const pageData = {
@@ -59,61 +60,82 @@ export default function Maps() {
 
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: { xs: 3, md: 4 },
+              display: "grid",
+              gridTemplateColumns: {
+                xs: "1fr",
+                sm: "repeat(2, 1fr)",
+                md: "repeat(3, 1fr)",
+              },
+              gap: { xs: 2, md: 3 },
             }}
           >
             {maps.map((map) => (
-              <Paper
+              <Card
                 key={map.id}
                 elevation={3}
                 sx={{
-                  overflow: "hidden",
-                  borderRadius: 2,
+                  height: "100%",
+                  display: "flex",
+                  flexDirection: "column",
+                  transition: "all 0.3s ease",
+                  "&:hover": {
+                    transform: "translateY(-4px)",
+                    boxShadow: 6,
+                  },
                 }}
               >
-                <Box sx={{ p: { xs: 2, md: 3 }, bgcolor: "background.paper" }}>
-                  <Typography
-                    variant="h5"
-                    component="h2"
-                    sx={{
-                      mb: 1,
-                      fontWeight: 600,
-                      color: "primary.main",
-                    }}
-                  >
-                    {map.title}
-                  </Typography>
-                  <StyledText
-                    type="body"
-                    sx={{ mb: 2, color: "text.secondary" }}
-                  >
-                    {map.description}
-                  </StyledText>
-                </Box>
-
-                <Box
+                <CardActionArea
+                  component="a"
+                  href={map.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   sx={{
-                    height: { xs: "400px", md: "500px" },
-                    width: "100%",
-                    position: "relative",
+                    height: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "stretch",
+                    justifyContent: "flex-start",
                   }}
                 >
-                  <iframe
-                    src={map.url}
-                    title={map.title}
-                    style={{
-                      width: "100%",
-                      height: "100%",
-                      border: "none",
-                      display: "block",
+                  <CardContent
+                    sx={{
+                      flexGrow: 1,
+                      display: "flex",
+                      flexDirection: "column",
+                      p: 3,
                     }}
-                    allowFullScreen
-                    loading="lazy"
-                  />
-                </Box>
-              </Paper>
+                  >
+                    <Box
+                      sx={{
+                        display: "flex",
+                        alignItems: "center",
+                        gap: 1,
+                        mb: 2,
+                      }}
+                    >
+                      <Typography
+                        variant="h5"
+                        component="h2"
+                        sx={{
+                          fontWeight: 600,
+                          color: "primary.main",
+                        }}
+                      >
+                        {map.title}
+                      </Typography>
+                      <OpenInNewIcon
+                        sx={{ fontSize: 20, color: "primary.main" }}
+                      />
+                    </Box>
+                    <StyledText
+                      type="body"
+                      sx={{ color: "text.secondary", flexGrow: 1 }}
+                    >
+                      {map.description}
+                    </StyledText>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
             ))}
           </Box>
         </Box>

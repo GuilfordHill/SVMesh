@@ -14,12 +14,15 @@
 /dist
 **/dist
 
-# Environment variables
+# Environment variables (CRITICAL: Never commit these!)
 .env
+.env.*
+!.env.example
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+.env.production
 
 # Logs
 npm-debug.log*
@@ -58,9 +61,6 @@ ssl/
 *.pem
 *.key
 *.crt
-
-# Temporary nginx config files
-nginx.conf.tunnel
 
 # Backup files
 *.backup

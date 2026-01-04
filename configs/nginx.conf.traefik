@@ -44,10 +44,19 @@ http {
         server svmesh-app:8080;
     }
 
+    # Proxy settings
+    proxy_buffering on;
+    proxy_buffer_size 4k;
+    proxy_buffers 8 4k;
+    proxy_busy_buffers_size 8k;
+
     # Main server block (HTTP only - Traefik handles HTTPS)
     server {
         listen 80;
         server_name _;  # Accept any hostname since Traefik routes here
+        
+        # Disable keepalive to troubleshoot connection issues
+        keepalive_timeout 0;
 
         # Logging
         access_log /var/log/nginx/svmesh_access.log;

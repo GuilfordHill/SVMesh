@@ -1,4 +1,5 @@
 import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 import { StyledText, StyledLink, WarningBanner } from "./ui";
 import { Box } from "@mui/material";
 
@@ -97,11 +98,9 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
       </Box>
     ),
     li: ({ children }: any) => (
-      <Box component="li" sx={{ mb: 0.5 }}>
-        <StyledText type="body-large" component="span">
-          {children}
-        </StyledText>
-      </Box>
+      <StyledText type="body-large" component="li" sx={{ mb: 0.5 }}>
+        {children}
+      </StyledText>
     ),
     blockquote: ({ children }: any) => (
       <Box
@@ -133,6 +132,57 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
         {children}
       </Box>
     ),
+    table: ({ children }: any) => (
+      <Box sx={{ overflowX: "auto", mb: 2.5 }}>
+        <Box
+          component="table"
+          sx={{
+            width: "100%",
+            borderCollapse: "collapse",
+            bgcolor: "background.paper",
+            "& th": {
+              bgcolor: "primary.main",
+              color: "primary.contrastText",
+              fontWeight: 600,
+              p: 1.5,
+              textAlign: "left",
+              borderBottom: 2,
+              borderColor: "divider",
+            },
+            "& td": {
+              p: 1.5,
+              borderBottom: 1,
+              borderColor: "divider",
+            },
+            "& tr:last-child td": {
+              borderBottom: 0,
+            },
+            "& tr:hover": {
+              bgcolor: "action.hover",
+            },
+          }}
+        >
+          {children}
+        </Box>
+      </Box>
+    ),
+    thead: ({ children }: any) => <Box component="thead">{children}</Box>,
+    tbody: ({ children }: any) => <Box component="tbody">{children}</Box>,
+    tr: ({ children }: any) => <Box component="tr">{children}</Box>,
+    th: ({ children }: any) => (
+      <Box component="th">
+        <StyledText type="body-large" component="span" sx={{ fontWeight: 600, color: "inherit" }}>
+          {children}
+        </StyledText>
+      </Box>
+    ),
+    td: ({ children }: any) => (
+      <Box component="td">
+        <StyledText type="body" component="span">
+          {children}
+        </StyledText>
+      </Box>
+    ),
   };
 
   return (
@@ -162,6 +212,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
         
         return (
           <ReactMarkdown
+            remarkPlugins={[remarkGfm]}
             key={index}
             components={markdownComponents}
           >
