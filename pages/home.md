@@ -9,16 +9,22 @@ attributionUrl: "https://commons.wikimedia.org/wiki/File:Ridges_and_valleys_near
 
 ## What is a mesh?
 
-A mesh is a decentralized network of devices that communicate with each other directly, rather than relying on a central hub or internet connection. This allows for greater resilience, as the network can adapt and reroute data even if some nodes go offline. We use low-power, long-range radio boards to create these connections, enabling devices to communicate over distances that traditional Wi-Fi or Bluetooth cannot cover. We currently utilize the Meshtastic open-source project to power our mesh network, which requires no amateur radio license.
+A mesh is a decentralized network of devices that communicate directly with one another, without relying on a central hub or an internet connection. This architecture provides resilience, allowing the network to adapt and reroute traffic even when individual nodes go offline.
+
+We build our mesh using low-power, long-range radio hardware, enabling communication across distances that traditional technologies like Wi-Fi or Bluetooth cannot reach. Our network is powered by the Meshtastic open-source project, which does not require an amateur radio license to use.
 
 ## What can it be used for?
 
-As a community, the mesh is not used for much more than saying hello. And say hello we do, as we do daily check-ins at 9pm. However, private use cases have popped up in the mesh space, including low-power position tracking, backup emergency communications, and for reading sensor data remotely. While Meshtastic is NOT a replacement for emergency communication, it can be used as a backup for a more reliable means of communication like amateur radio. Above all, it is a fun platform for the community to tinker with in their own ways, whether it be infrastructure, CAD design, or software development.
+As a community, the mesh is primarily used for casual communication. We regularly check in and say hello, including daily community check-ins at 9 pm. Beyond this, members have found a variety of private and experimental use cases, such as low-power position tracking, backup communications, and remote sensor data collection.
+
+While Meshtastic is not a replacement for emergency communication systems, it can serve as a useful backup to more robust options like amateur radio. Above all, the mesh is a platform for experimentation and learning, whether that involves infrastructure planning, CAD design, firmware development, or software integration.
 
 ## How do I get started?
 
-To get started, you will need a node. These can be bought pre-built or built yourself using readily available boards. Consult our [getting started guide](/getting-started) before you make your purchase for some good options in both categories, and for help getting connected to the mesh for the first time.
+To get started, you will need a node. Nodes can be purchased pre-built or assembled using readily available development boards. Before making a purchase, we recommend reviewing our [Getting Started guide](/getting-started), which covers recommended hardware options and walks through the initial setup process.
 
 ## I want to join the community!
 
-We're glad to have you! We primarily operate on Discord and Facebook, head to our [socials page](/socials) to join the community. Our community is filled with people who can help you on your path to getting online for the first time! Joining will also help you stay in the know about community events, mesh related issues or updates, and more. Come on in!
+We’re glad to have you. Our community primarily connects through Discord and Facebook. Visit our [socials page](/socials) to join the conversation.
+
+Our members are always happy to help newcomers get online for the first time, and joining the community is the best way to stay informed about events, network updates, and ongoing mesh development. We look forward to seeing you on the mesh.
