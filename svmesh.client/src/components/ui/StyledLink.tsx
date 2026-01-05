@@ -15,16 +15,16 @@ const BaseLink = styled(Link)(({ theme }) => ({
   gap: 6,
   "&:hover": {
     color: theme.palette.primary.dark,
-    borderBottomColor: theme.palette.primary.main,
+    borderBottomColor: "currentColor",
     textDecoration: "none",
   },
 }));
 
-const LinkIcon = styled(OpenInNewRoundedIcon)(({ theme }) => ({
+const LinkIcon = styled(OpenInNewRoundedIcon)({
   fontSize: "1rem",
-  color: theme.palette.primary.main,
+  color: "currentColor",
   opacity: 0.75,
-}));
+});
 
 // Add a small open-in-new style indicator to make links stand out
 const StyledLink = forwardRef<HTMLAnchorElement, LinkProps>(function StyledLink(

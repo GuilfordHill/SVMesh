@@ -234,10 +234,97 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
             <WarningBanner key={index} type={part.warningType!} title={part.title}>
               <ReactMarkdown
                 components={{
-                  p: ({ children }: any) => (
-                    <StyledText type="body" sx={{ mb: 0 }}>
+                  h1: ({ children }: any) => (
+                    <StyledText
+                      type="heading"
+                      component="h1"
+                      sx={{ mt: 0, mb: 2, color: "inherit" }}
+                    >
                       {children}
                     </StyledText>
+                  ),
+                  h2: ({ children }: any) => (
+                    <StyledText
+                      type="heading"
+                      component="h2"
+                      sx={{
+                        mt: 0,
+                        mb: 1.5,
+                        fontSize: { xs: "1.35rem", sm: "1.5rem", md: "1.65rem" },
+                        color: "inherit",
+                      }}
+                    >
+                      {children}
+                    </StyledText>
+                  ),
+                  h3: ({ children }: any) => (
+                    <StyledText
+                      type="subheading"
+                      component="h3"
+                      sx={{
+                        mt: 2,
+                        mb: 1,
+                        fontSize: { xs: "1.1rem", sm: "1.15rem", md: "1.25rem" },
+                        color: "inherit",
+                      }}
+                    >
+                      {children}
+                    </StyledText>
+                  ),
+                  p: ({ children }: any) => (
+                    <StyledText type="body" sx={{ mb: 0, color: "inherit" }}>
+                      {children}
+                    </StyledText>
+                  ),
+                  a: ({ href, children }: any) => (
+                    <StyledLink
+                      href={href || "#"}
+                      target={href?.startsWith("http") ? "_blank" : undefined}
+                      sx={{ color: "inherit" }}
+                    >
+                      {children}
+                    </StyledLink>
+                  ),
+                  ul: ({ children }: any) => (
+                    <Box component="ul" sx={{ pl: 3, mb: 0, mt: 1 }}>
+                      {children}
+                    </Box>
+                  ),
+                  ol: ({ children }: any) => (
+                    <Box component="ol" sx={{ pl: 3, mb: 0, mt: 1 }}>
+                      {children}
+                    </Box>
+                  ),
+                  li: ({ children }: any) => (
+                    <StyledText type="body" component="li" sx={{ mb: 0.5, color: "inherit" }}>
+                      {children}
+                    </StyledText>
+                  ),
+                  strong: ({ children }: any) => (
+                    <Box component="strong" sx={{ color: "inherit", fontWeight: 600 }}>
+                      {children}
+                    </Box>
+                  ),
+                  em: ({ children }: any) => (
+                    <Box component="em" sx={{ color: "inherit" }}>
+                      {children}
+                    </Box>
+                  ),
+                  code: ({ children }: any) => (
+                    <Box
+                      component="code"
+                      sx={{
+                        fontFamily: "monospace",
+                        bgcolor: "action.hover",
+                        px: 1,
+                        py: 0.5,
+                        borderRadius: 0.5,
+                        fontSize: "0.9em",
+                        color: "inherit",
+                      }}
+                    >
+                      {children}
+                    </Box>
                   ),
                 }}
               >
