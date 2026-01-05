@@ -31,22 +31,11 @@ The upcoming website for the Susquehanna Valley Mesh, serving the centeral Penns
 
 We use Docker to run the app stack, with a Docker Compose file provided. After cloning the repository, run `docker compose up -d --build` to run the site. By default, the site will be available on port 8081.
 
-### Production Deployment
-
-For production deployments, see our comprehensive documentation:
-
-- **[📚 Deployment Guide](docs/deployment-guide.md)** - Complete deployment instructions
-- **[🌐 Traefik Setup Guide](docs/traefik-static-ip-setup.md)** - Reverse proxy deployment
-- **[🔒 Security Guide](docs/security-guide.md)** - Security best practices
-
-## 📁 Project Structure
+## Project Structure
 
 ```
 svmesh/
-├── configs/                       # Deployment configs (compose variants, nginx/traefik)
-│   ├── docker-compose.dev.yml
-│   ├── docker-compose.prod.yml
-│   ├── docker-compose.cloudflare-backup.yml
+├── configs/                       # Deployment configs (nginx/traefik)
 │   └── nginx.conf.traefik
 ├── docs/                          # Operations and security docs
 ├── pages/                         # Markdown pages served at /content/pages
@@ -54,6 +43,7 @@ svmesh/
 ├── SVMesh.Server/                 # ASP.NET Core backend
 │   ├── Controllers/
 │   ├── Properties/
+│   ├── Services/                  # Handlers for content and Discord integration
 │   ├── Program.cs
 │   └── SVMesh.Server.csproj
 ├── svmesh.client/                 # React frontend (Vite + MUI)
@@ -61,17 +51,17 @@ svmesh/
 │   ├── public/
 │   └── package.json
 ├── docker-compose.yml             # Default compose (production-like)
-├── Dockerfile                     # Multi-stage build
+├── Dockerfile
 ├── nginx.conf                     # Local nginx config
 ├── QUICKSTART.md                  # Quick run instructions
 └── README.md                      # This file
 ```
 
-## 🔧 Configuration
+## Configuration
 
 ### Environment Variables
 
-Create a `.env` file for production configuration:
+Create a `.env` file by copying `.env.example` and update it for your configuration:
 
 ```bash
 # Domain Configuration
@@ -85,6 +75,8 @@ ASPNETCORE_ENVIRONMENT=Production
 
 # Database (if using)
 # DATABASE_URL=your_database_url
+
+...
 ```
 
 ### Application Settings
@@ -96,7 +88,7 @@ Key configuration files:
 - `docker-compose.yml` - Container orchestration
 - `nginx.conf` - Reverse proxy settings
 
-## 🛠️ Development
+## Development
 
 ### Local Development Setup
 
@@ -128,39 +120,13 @@ Key configuration files:
 
    ```bash
    # Build all containers
-   docker-compose build
+   docker compose build
 
    # Run production build locally
-   docker-compose up
+   docker compose up
    ```
 
-### Code Style and Linting
-
-```bash
-# Frontend linting
-cd svmesh.client
-npm run lint
-
-# Format code (if prettier is configured)
-npm run format
-```
-
-## 📊 Monitoring and Maintenance
-
-### Health Checks
-
-The application includes built-in health monitoring:
-
-```bash
-# Check application health
-curl http://localhost:5000/health
-
-# Monitor container health
-docker-compose ps
-
-# View logs
-docker-compose logs -f
-```
+## Monitoring and Maintenance
 
 ### Log Management
 
@@ -180,56 +146,15 @@ docker-compose logs -f nginx
 ```bash
 # Update to latest version
 git pull
-docker-compose build --no-cache
-docker-compose up -d
-
-# Backup data (customize for your needs)
-docker-compose exec postgres pg_dump -U user database > backup.sql
+docker compose build
+docker compose up -d
 ```
 
-## 🔒 Security
+## Documentation
 
-SVMesh implements multiple security layers:
+Documentation is available in the `docs/` directory, covering how to best format Markdown pages to integrate seamlessly with the current rendering engine. If you are planning to contribute to page contents, please read and follow the guidelines.
 
-- **Container Security**: Non-root users, minimal images, security options
-- **Network Security**: Reverse proxy, rate limiting, security headers
-- **Application Security**: HTTPS enforcement, CORS, input validation
-- **Infrastructure**: Firewall rules, monitoring, access controls
-
-For detailed security information, see the [Security Guide](docs/security-guide.md).
-
-## 🚀 Deployment Options
-
-### Traefik Reverse Proxy (Recommended)
-
-- ✅ Automatic SSL/TLS with Let's Encrypt
-- ✅ Modern reverse proxy with dynamic configuration
-- ✅ Built-in load balancing
-- ✅ Middleware support for security headers
-- ✅ Works on separate machines (no Docker Swarm needed)
-
-See: [Traefik Static IP Setup Guide](docs/traefik-static-ip-setup.md)
-
-### Traditional HTTPS
-
-- ✅ Full control over SSL certificates
-- ✅ Standard hosting approach
-- ✅ Works with any DNS provider
-- ❗ Requires firewall configuration
-- ❗ Manual SSL certificate management
-
-See: [Deployment Guide](docs/deployment-guide.md)
-
-## 📖 Documentation
-
-Comprehensive documentation is available in the `docs/` directory:
-
-- **[📚 docs/README.md](docs/README.md)** - Documentation overview
-- **[🚀 Deployment Guide](docs/deployment-guide.md)** - Production deployment
-- **[🌐 Traefik Setup Guide](docs/traefik-static-ip-setup.md)** - Reverse proxy setup
-- **[🔒 Security Guide](docs/security-guide.md)** - Security best practices
-
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature-name`
@@ -237,38 +162,13 @@ Comprehensive documentation is available in the `docs/` directory:
 4. Test your changes thoroughly
 5. Submit a pull request
 
-### Development Guidelines
-
-- Follow existing code style and conventions
-- Write meaningful commit messages
-- Update documentation for new features
-- Test both development and production builds
-- Ensure security best practices are followed
-
-## 📝 Changelog
-
-See individual component changelogs:
-
-- [Server Changelog](SVMesh.Server/CHANGELOG.md)
-- [Client Changelog](svmesh.client/CHANGELOG.md)
-
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 🆘 Support
-
-- **Documentation**: Check the `docs/` directory for detailed guides
-- **Issues**: Create a GitHub issue for bugs or feature requests
-- **Security**: For security issues, please follow responsible disclosure practices
-
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Built with [ASP.NET Core](https://docs.microsoft.com/en-us/aspnet/core/)
 - Frontend powered by [React](https://reactjs.org/) and [Material-UI](https://mui.com/)
 - Containerization with [Docker](https://www.docker.com/)
-- Reverse proxy with [Traefik](https://traefik.io/)
-
----
-
-**SVMesh** - Modern, Secure, Scalable Web Applications
+- Reverse proxy on the production site with [Traefik](https://traefik.io/)
