@@ -70,12 +70,14 @@ RUN addgroup -g 1001 -S appgroup && \
 WORKDIR /app
 COPY --from=backend-build --chown=appuser:appgroup /app/publish .
 
+# Copy pages directly into the app (not mounted)
+COPY --chown=appuser:appgroup pages/ /app/wwwroot/content/pages/
+
 # Create directories for content mounts and data
-RUN mkdir -p /app/wwwroot/content/pages /app/wwwroot/content/updates /app/data && \
+RUN mkdir -p /app/wwwroot/content/updates /app/data && \
     chown -R appuser:appgroup /app/wwwroot/content /app/data
 
-# Copy default pages and updates content to a separate location
-COPY --chown=appuser:appgroup pages/ /app/pages.default/
+# Copy default updates content to a separate location
 COPY --chown=appuser:appgroup updates/ /app/updates.default/
 
 # Copy the entrypoint script

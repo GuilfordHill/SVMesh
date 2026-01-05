@@ -11,6 +11,7 @@ builder.Services.AddHealthChecks();
 
 // Register application services
 builder.Services.AddScoped<IContentService, ContentService>();
+builder.Services.AddHostedService<KnowledgebaseNotificationService>();
 
 // Configure Kestrel for production
 builder.WebHost.ConfigureKestrel(options =>
