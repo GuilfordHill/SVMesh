@@ -152,6 +152,13 @@ export default function Socials() {
                 Respect the law: Only share content you have the right to post, following copyright
                 and intellectual property laws.
               </StyledText>
+              <StyledText component="li" type="body-large">
+                No sharing or promoting illegal activities: This is a public forum, and public
+                discussion of illegal activities, including placing nodes on property you do not own
+                or have permission to use, can harm our ability to maintain and build goodwill with
+                local governments, schools, and private organizations that currently host, or may
+                consider hosting, nodes on our behalf.
+              </StyledText>
             </Box>
           </Stack>
         </Stack>
