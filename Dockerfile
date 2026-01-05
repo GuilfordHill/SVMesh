@@ -70,6 +70,9 @@ RUN addgroup -g 1001 -S appgroup && \
 WORKDIR /app
 COPY --from=backend-build --chown=appuser:appgroup /app/publish .
 
+# Bust cache for pages copy - always refresh on every build
+RUN date +%s > /tmp/cachebust
+
 # Copy pages directly into the app (not mounted)
 COPY --chown=appuser:appgroup pages/ /app/wwwroot/content/pages/
 
