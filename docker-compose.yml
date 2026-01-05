@@ -32,7 +32,6 @@ services:
     expose:
       - "8080"
     volumes:
-      - ./pages:/app/wwwroot/content/pages
       - ./updates:/app/wwwroot/content/updates
       - app-data:/app/data
     environment:
