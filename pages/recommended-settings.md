@@ -24,7 +24,7 @@ There is an excellent write-up on our [Knowledgebase](/knowledgebase/the-archite
 
 ## Broadcast Interval Settings
 
-In order to maintain a healthy mesh network, we recommend the following configuration settings for your nodes. These settings are comprehensive, and are developed to lower channel utilization by reducing unnecessary transmits. They are based on the collective experience of the Susquehanna Valley Mesh community and are subject to change as the mesh grows and evolves. We will announce new recommended settings on our socials when they go live.
+In order to maintain a healthy mesh network, we recommend the following configuration settings for your nodes. This section covers all the settings that impact how often your node broadcasts telemetry data, and these settings were developed to lower channel utilization by reducing unnecessary transmits. They are based on the collective experience of the Susquehanna Valley Mesh community and are subject to change as the mesh grows and evolves. We will announce new recommended settings on our socials when they go live.
 
 We highly recommend following these recommended settings, as 75% of traffic on the SVmesh network is low-importance telemetry. The more nodes that follow these guidelines, the more stable our mesh will be.
 
@@ -64,7 +64,7 @@ Please only enable on solar or outside enclosure nodes where health data is usef
 | Power metrics module enabled        | `False`            | This is for I²C power monitors, not onboard battery stats. |
 
 Please disable the `Environment metrics` / `Air Quality metrics` modules if you are not using the data.
-If you are using a science node and need to send a lot of environmental data, please avoid using the main mesh frequency. You may wish to coordinate with SVM for coverage.
+If you are using a science node and need to send a lot of environmental data, please avoid using the main mesh frequency. You may wish to coordinate with the community to ensure coverage in your operating area.
 
 ### Neighbor Info
 

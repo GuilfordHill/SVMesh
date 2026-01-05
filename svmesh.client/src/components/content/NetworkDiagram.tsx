@@ -2,11 +2,16 @@ import { Box, Card, Typography, useTheme } from "@mui/material";
 import RouterIcon from "@mui/icons-material/Router";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import HomeIcon from "@mui/icons-material/Home";
-import { StyledText } from "../ui";
 
 interface DiagramNode {
   type: "ingress" | "base" | "backbone";
   label: string;
+}
+
+interface DiagramLevel {
+  nodes: DiagramNode[];
+  hasConnections: boolean; // Whether nodes at this level are connected horizontally
+  columnPositions?: number[]; // Column index for each node
 }
 
 interface NetworkDiagramProps {
@@ -14,44 +19,37 @@ interface NetworkDiagramProps {
 }
 
 // Parse the ASCII diagram to extract node structure
-function parseDiagram(content: string): DiagramNode[][] {
+function parseDiagram(content: string): DiagramLevel[] {
   const lines = content.split("\n");
-  const nodes: DiagramNode[][] = [];
-  const allNodes: DiagramNode[] = [];
 
-  // First pass: find all nodes by looking for the pattern
+  // Track which rows contain nodes with their column positions
+  interface NodeWithPosition {
+    type: "ingress" | "base" | "backbone";
+    label: string;
+    columnStart: number;
+    columnEnd: number;
+    rowIndex: number;
+  }
+
+  const allNodes: NodeWithPosition[] = [];
+
+  // Find all node boxes with their positions
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
-    const nextLine = i + 1 < lines.length ? lines[i + 1] : "";
-
-    // Look for lines that contain node type keywords
     const lowerLine = line.toLowerCase();
 
-    // Check if this line contains a type
+    // Check if this line contains a node label (with │ character)
     if (
       (lowerLine.includes("ingress") ||
         lowerLine.includes("base") ||
         lowerLine.includes("backbone")) &&
       line.includes("│")
     ) {
-      let type: DiagramNode["type"] = "base";
+      // Find all node boxes on this line with their positions
+      const nodeMatches = [...line.matchAll(/│[^│]*?(ingress|base|backbone)[^│]*?│/gi)];
 
-      // Determine type
-      if (lowerLine.includes("ingress")) {
-        type = "ingress";
-      } else if (lowerLine.includes("backbone")) {
-        type = "backbone";
-      } else if (lowerLine.includes("base")) {
-        type = "base";
-      }
-
-      // Count how many node boxes are on this line by counting closing boxes "└" or "┘"
-      // or by counting the pattern │...│ occurrences
-      const boxPattern = /│[^│]+?│/g;
-      const boxes = line.match(boxPattern);
-      const boxCount = boxes ? boxes.length : 1;
-
-      // Extract label from parentheses in current or next line
+      // Extract label from current or next line
+      const nextLine = i + 1 < lines.length ? lines[i + 1] : "";
       let label = "";
       const labelMatch = line.match(/\((.*?)\)/);
       if (labelMatch) {
@@ -63,67 +61,111 @@ function parseDiagram(content: string): DiagramNode[][] {
         }
       }
 
-      // Use default labels if not found
-      if (!label) {
-        label =
-          type === "ingress" ? "Your device" : type === "base" ? "Rooftop node" : "Tower node";
-      }
+      // Process each node found
+      for (const match of nodeMatches) {
+        const nodeBox = match[0];
+        const nodeBoxLower = nodeBox.toLowerCase();
 
-      // Add the appropriate number of nodes based on box count
-      for (let j = 0; j < boxCount; j++) {
-        allNodes.push({ type, label });
+        let type: DiagramNode["type"] = "base";
+        if (nodeBoxLower.includes("ingress")) {
+          type = "ingress";
+        } else if (nodeBoxLower.includes("backbone")) {
+          type = "backbone";
+        } else if (nodeBoxLower.includes("base")) {
+          type = "base";
+        }
+
+        // Use default labels based on type if not found
+        let nodeLabel = label;
+        if (!nodeLabel) {
+          nodeLabel =
+            type === "ingress" ? "Your device" : type === "base" ? "Rooftop node" : "Tower node";
+        }
+
+        allNodes.push({
+          type,
+          label: nodeLabel,
+          columnStart: match.index || 0,
+          columnEnd: (match.index || 0) + nodeBox.length,
+          rowIndex: i,
+        });
       }
     }
   }
 
-  // Group nodes by levels (ingress -> base -> backbone -> base -> ingress)
-  if (allNodes.length > 0) {
-    let currentIndex = 0;
-
-    // First ingress
-    if (allNodes[currentIndex]?.type === "ingress") {
-      nodes.push([allNodes[currentIndex]]);
-      currentIndex++;
+  // Build a global set of column bins across all rows
+  const columnCenters = new Map<number, number[]>();
+  for (const node of allNodes) {
+    const center = Math.round((node.columnStart + node.columnEnd) / 2);
+    if (!columnCenters.has(node.rowIndex)) {
+      columnCenters.set(node.rowIndex, []);
     }
-
-    // First base
-    if (allNodes[currentIndex]?.type === "base") {
-      nodes.push([allNodes[currentIndex]]);
-      currentIndex++;
-    }
-
-    // Backbone nodes (collect all sequential backbone nodes)
-    const backboneNodes: DiagramNode[] = [];
-    while (currentIndex < allNodes.length && allNodes[currentIndex].type === "backbone") {
-      backboneNodes.push(allNodes[currentIndex]);
-      currentIndex++;
-    }
-    if (backboneNodes.length > 0) {
-      nodes.push(backboneNodes);
-    }
-
-    // Other base nodes (collect all sequential base nodes)
-    const baseNodes: DiagramNode[] = [];
-    while (currentIndex < allNodes.length && allNodes[currentIndex].type === "base") {
-      baseNodes.push(allNodes[currentIndex]);
-      currentIndex++;
-    }
-    if (baseNodes.length > 0) {
-      nodes.push(baseNodes);
-    }
-
-    // Other ingress nodes (collect remaining ingress nodes)
-    const ingressNodes: DiagramNode[] = [];
-    while (currentIndex < allNodes.length && allNodes[currentIndex].type === "ingress") {
-      ingressNodes.push(allNodes[currentIndex]);
-      currentIndex++;
-    }
-    if (ingressNodes.length > 0) {
-      nodes.push(ingressNodes);
-    }
+    columnCenters.get(node.rowIndex)!.push(center);
   }
 
-  return nodes;
+  // Merge all column centers to create global column bins
+  const allCenters = Array.from(columnCenters.values()).flat();
+  const globalBins: number[] = [];
+  const binTolerance = 20;
+
+  for (const center of allCenters.sort((a, b) => a - b)) {
+    let foundBin = false;
+    for (let i = 0; i < globalBins.length; i++) {
+      if (Math.abs(globalBins[i] - center) < binTolerance) {
+        globalBins[i] = (globalBins[i] + center) / 2; // Average the positions
+        foundBin = true;
+        break;
+      }
+    }
+    if (!foundBin) {
+      globalBins.push(center);
+    }
+  }
+  globalBins.sort((a, b) => a - b);
+
+  // Group nodes by row
+  const rowGroups: Map<number, NodeWithPosition[]> = new Map();
+  for (const node of allNodes) {
+    if (!rowGroups.has(node.rowIndex)) {
+      rowGroups.set(node.rowIndex, []);
+    }
+    rowGroups.get(node.rowIndex)!.push(node);
+  }
+
+  // Build levels with global column assignments
+  const levels: DiagramLevel[] = [];
+  const sortedRows = Array.from(rowGroups.keys()).sort((a, b) => a - b);
+
+  for (const rowIndex of sortedRows) {
+    const rowNodes = rowGroups.get(rowIndex)!;
+    const nodesWithColumns: (DiagramNode & { columnIndex: number })[] = [];
+    const columnIndices: number[] = [];
+
+    // Assign each node to its global column bin
+    for (const node of rowNodes) {
+      const center = (node.columnStart + node.columnEnd) / 2;
+      const columnIndex = globalBins.findIndex((bin) => Math.abs(center - bin) < binTolerance);
+
+      nodesWithColumns.push({
+        type: node.type,
+        label: node.label,
+        columnIndex: columnIndex >= 0 ? columnIndex : 0,
+      });
+      columnIndices.push(columnIndex >= 0 ? columnIndex : 0);
+    }
+
+    // Check for horizontal connections
+    const line = lines[rowIndex];
+    const hasConnections = line.includes("◄") || line.includes("►");
+
+    levels.push({
+      nodes: nodesWithColumns.map(({ columnIndex, ...n }) => n),
+      hasConnections,
+      columnPositions: columnIndices,
+    });
+  }
+
+  return levels;
 }
 
 const NodeCard = ({ node }: { node: DiagramNode }) => {
@@ -198,9 +240,54 @@ const NodeCard = ({ node }: { node: DiagramNode }) => {
 const ConnectionArrow = ({
   direction = "down",
 }: {
-  direction?: "down" | "horizontal" | "bidirectional";
+  direction?: "down" | "horizontal" | "bidirectional" | "vertical-bidirectional";
 }) => {
   const theme = useTheme();
+
+  if (direction === "vertical-bidirectional") {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          my: 1,
+          color: theme.palette.text.secondary,
+        }}
+      >
+        <Box
+          sx={{
+            width: 2,
+            height: 40,
+            bgcolor: "currentColor",
+            position: "relative",
+            "&::before": {
+              content: '""',
+              position: "absolute",
+              top: -6,
+              left: -4,
+              width: 0,
+              height: 0,
+              borderBottom: `6px solid currentColor`,
+              borderLeft: "5px solid transparent",
+              borderRight: "5px solid transparent",
+            },
+            "&::after": {
+              content: '""',
+              position: "absolute",
+              bottom: -6,
+              left: -4,
+              width: 0,
+              height: 0,
+              borderTop: `6px solid currentColor`,
+              borderLeft: "5px solid transparent",
+              borderRight: "5px solid transparent",
+            },
+          }}
+        />
+      </Box>
+    );
+  }
 
   if (direction === "bidirectional") {
     return (
@@ -317,115 +404,181 @@ export default function NetworkDiagram({ content }: NetworkDiagramProps) {
   const nodes = parseDiagram(content);
   const theme = useTheme();
 
+  // Check if there's a vertical connection between consecutive backbone levels
+  const hasVerticalBackboneConnection = (levelIndex: number): boolean => {
+    if (levelIndex >= nodes.length - 1) return false;
+    const currentLevel = nodes[levelIndex];
+    const nextLevel = nodes[levelIndex + 1];
+
+    // Check if both levels have at least one backbone node
+    const currentHasBackbone = currentLevel.nodes.some((n) => n.type === "backbone");
+    const nextHasBackbone = nextLevel.nodes.some((n) => n.type === "backbone");
+
+    if (currentHasBackbone && nextHasBackbone) {
+      // Check if there are vertical arrow characters in the content between these levels
+      const lines = content.split("\n");
+      return lines.some((line) => line.includes("▲") || line.includes("▼"));
+    }
+    return false;
+  };
+
   return (
     <Box
       sx={{
         my: 4,
-        p: 3,
         bgcolor: theme.palette.mode === "dark" ? "rgba(0, 0, 0, 0.2)" : "rgba(0, 0, 0, 0.02)",
         borderRadius: 2,
         border: 1,
         borderColor: "divider",
+        overflowX: "auto",
+        overflowY: "hidden",
+        "&::-webkit-scrollbar": {
+          height: 8,
+        },
+        "&::-webkit-scrollbar-track": {
+          bgcolor:
+            theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 0, 0, 0.05)",
+          borderRadius: 4,
+        },
+        "&::-webkit-scrollbar-thumb": {
+          bgcolor:
+            theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.2)" : "rgba(0, 0, 0, 0.2)",
+          borderRadius: 4,
+          "&:hover": {
+            bgcolor:
+              theme.palette.mode === "dark" ? "rgba(255, 255, 255, 0.3)" : "rgba(0, 0, 0, 0.3)",
+          },
+        },
       }}
     >
-      <StyledText
-        type="subheading"
-        component="h4"
-        sx={{ mb: 3, textAlign: "center", fontSize: "1.1rem" }}
-      >
-        Network Topology
-      </StyledText>
-
       <Box
         sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 0,
+          p: 3,
+          minWidth: "min-content",
         }}
       >
-        {nodes.map((level, levelIndex) => (
-          <Box key={levelIndex}>
-            {level.length === 1 ? (
-              // Single node in level
-              <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
-                <NodeCard node={level[0]} />
-                {levelIndex < nodes.length - 1 && <ConnectionArrow direction="down" />}
-              </Box>
-            ) : (
-              // Multiple nodes in level - show side by side with bidirectional arrows
-              <Box>
-                <Box
-                  sx={{
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    flexWrap: "wrap",
-                    gap: { xs: 2, sm: 0 },
-                  }}
-                >
-                  {level.map((node, nodeIndex) => (
-                    <>
-                      <NodeCard key={`node-${nodeIndex}`} node={node} />
-                      {nodeIndex < level.length - 1 && (
-                        <ConnectionArrow key={`arrow-${nodeIndex}`} direction="bidirectional" />
-                      )}
-                    </>
-                  ))}
-                </Box>
-                {levelIndex < nodes.length - 1 && (
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      gap: { xs: 2, sm: 0 },
-                    }}
-                  >
-                    {level.map((_, nodeIndex) => (
-                      <>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            gap: 0,
+          }}
+        >
+          {nodes.map((level, levelIndex) => {
+            // Get column positions for this level
+            const columnPositions = level.columnPositions || [];
+
+            // Find the maximum column index across all levels to create a proper grid
+            const maxColumn = Math.max(...nodes.flatMap((l) => l.columnPositions || []), -1);
+
+            // Create a full row with spacers for missing columns
+            const fullRow: (DiagramNode | null)[] = new Array(maxColumn + 1).fill(null);
+            for (let i = 0; i < columnPositions.length; i++) {
+              fullRow[columnPositions[i]] = level.nodes[i];
+            }
+
+            return (
+              <Box key={levelIndex}>
+                {level.nodes.length === 1 && columnPositions[0] === 0 ? (
+                  // Single node in first column only (centered layout)
+                  <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+                    <NodeCard node={level.nodes[0]} />
+                    {levelIndex < nodes.length - 1 &&
+                      (hasVerticalBackboneConnection(levelIndex) ? (
+                        <ConnectionArrow direction="vertical-bidirectional" />
+                      ) : (
+                        <ConnectionArrow direction="down" />
+                      ))}
+                  </Box>
+                ) : (
+                  // Grid layout with proper column alignment
+                  <Box>
+                    <Box
+                      sx={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        gap: 0,
+                      }}
+                    >
+                      {fullRow.map((node, colIndex) => (
                         <Box
-                          key={`down-arrow-${nodeIndex}`}
+                          key={`col-${colIndex}`}
                           sx={{
                             display: "flex",
-                            justifyContent: "center",
-                            minWidth: { xs: 140, sm: 160 },
-                            maxWidth: 200,
+                            alignItems: "center",
+                            gap: 0,
                           }}
                         >
-                          <ConnectionArrow direction="down" />
+                          {node ? (
+                            <>
+                              <NodeCard node={node} />
+                              {colIndex < maxColumn &&
+                                (level.hasConnections ? (
+                                  <ConnectionArrow direction="horizontal" />
+                                ) : (
+                                  <Box sx={{ width: 40, mx: 1 }} />
+                                ))}
+                            </>
+                          ) : (
+                            <>
+                              {/* Empty column - same width as node card + arrow/spacer */}
+                              <Box sx={{ minWidth: { xs: 140, sm: 160 }, maxWidth: 200 }} />
+                              {colIndex < maxColumn && <Box sx={{ width: 40, mx: 1 }} />}
+                            </>
+                          )}
                         </Box>
-                        {nodeIndex < level.length - 1 && (
-                          <Box
-                            key={`spacer-${nodeIndex}`}
-                            sx={{
-                              width: { xs: 30, sm: 50 },
-                              mx: 2,
-                            }}
-                          />
-                        )}
-                      </>
-                    ))}
+                      ))}
+                    </Box>
+                    {levelIndex < nodes.length - 1 && (
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: 0,
+                        }}
+                      >
+                        {fullRow.map((node, colIndex) => {
+                          // Only show vertical arrows for backbone nodes with bidirectional connection
+                          const showArrow =
+                            node &&
+                            hasVerticalBackboneConnection(levelIndex) &&
+                            node.type === "backbone";
+
+                          return (
+                            <Box
+                              key={`down-arrow-${colIndex}`}
+                              sx={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 0,
+                              }}
+                            >
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  minWidth: { xs: 140, sm: 160 },
+                                  maxWidth: 200,
+                                }}
+                              >
+                                {showArrow && (
+                                  <ConnectionArrow direction="vertical-bidirectional" />
+                                )}
+                              </Box>
+                              {colIndex < maxColumn && <Box sx={{ width: 40, mx: 1 }} />}
+                            </Box>
+                          );
+                        })}
+                      </Box>
+                    )}
                   </Box>
                 )}
               </Box>
-            )}
-          </Box>
-        ))}
-      </Box>
-
-      <Box sx={{ mt: 3, display: "flex", justifyContent: "center", gap: 3, flexWrap: "wrap" }}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <PhoneAndroidIcon sx={{ color: theme.palette.info.main }} />
-          <Typography variant="caption">Ingress (Portable)</Typography>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <HomeIcon sx={{ color: theme.palette.success.main }} />
-          <Typography variant="caption">Base (Rooftop)</Typography>
-        </Box>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <RouterIcon sx={{ color: theme.palette.primary.main }} />
-          <Typography variant="caption">Backbone (Tower)</Typography>
+            );
+          })}
         </Box>
       </Box>
     </Box>

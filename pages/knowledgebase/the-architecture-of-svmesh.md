@@ -33,34 +33,18 @@ Ingress nodes are the portable nodes, vehicle nodes, or indoor stationary nodes 
 Following this system, when we use an ingress node to send a packet on the mesh, the ideal broadcast sequence is:
 
 ```network-diagram
-┌─────────────┐
- │   Ingress   │  (Your ingress node)
- │    Node     │
- └──────┬──────┘
-        │
-        ▼
- ┌─────────────┐
- │    Base     │  (Nearby rooftop node)
- │    Node     │
- └──────┬──────┘
-        │
-        ▼
- ┌─────────────┐       ┌─────────────┐
- │  Backbone   │◄─────►│  Backbone   │  (Tower-mounted backhaul)
- │    Nodes    │       │    Nodes    │
- └──────┬──────┘       └──────┬──────┘
-        │                     │
-        ▼                     ▼
- ┌─────────────┐       ┌─────────────┐
- │    Base     │       │    Base     │  (Other rooftop nodes)
- │    Nodes    │       │    Nodes    │
- └──────┬──────┘       └──────┬──────┘
-        │                     │
-        ▼                     ▼
- ┌─────────────┐       ┌─────────────┐
- │   Ingress   │       │   Ingress   │  (Other users' devices)
- │    Nodes    │       │    Nodes    │
- └─────────────┘       └─────────────┘
+                                           ┌─────────────┐       ┌─────────────┐       ┌─────────────┐
+                                           │  Backbone  │──────►│    Base    │──────►│   Ingress   │
+                                           │    Node    │      │    Node    │       │    Node    │
+                                           └─────────────┘       └─────────────┘       └─────────────┘
+                                                 ▲
+                                                 │
+                                                 │
+                                                 ▼
+ ┌─────────────┐       ┌─────────────┐        ┌─────────────┐       ┌─────────────┐       ┌─────────────┐
+ │   Ingress   │──────►│    Base    │──────►│  Backbone   │──────►│    Base    │──────►│   Ingress   │
+ │    Node     │      │    Node    │       │    Node    │       │    Node    │       │    Node    │
+ └─────────────┘       └─────────────┘        └─────────────┘       └─────────────┘       └─────────────┘
 ```
 
 With hop count set to `5`, and zero-hop forwarding correctly set up on your base node, your message will ideally be able to relay across at least 3 backbone nodes and still reliably deliver to base nodes within their coverage areas. However, for this to work smoothly, we must have a high level of adherence to our [Recommended Settings](/recommended-settings), so please configure your nodes in compliance with the settings listed on the page. If we work together, we can bring our topology closer and closer to the ideal.
