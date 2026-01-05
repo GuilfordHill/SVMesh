@@ -502,7 +502,7 @@ We're excited to announce our next community meeting...
 ```
 pages/
 ├── getting-started.md      # Main guides
-├── channel-settings.md     # Specific topics
+├── recommended-settings.md # Specific topics
 └── troubleshooting.md      # Support content
 
 updates/
@@ -732,7 +732,7 @@ _Italic_
 
 ```
 pages/getting-started.md
-pages/channel-settings.md
+pages/recommended-settings.md
 pages/knowledgebase/device-guide.md
 ```
 

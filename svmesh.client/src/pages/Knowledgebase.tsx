@@ -175,7 +175,11 @@ export default function Knowledgebase() {
             </StyledText>
           </Box>
           <Stack spacing={1.5} sx={{ mb: 3 }}>
-            <StyledText type="heading" component="h2" sx={{ fontSize: "1.4rem" }}>
+            <StyledText
+              type="heading"
+              component="h1"
+              sx={{ fontSize: { xs: "1.75rem", sm: "2rem", md: "2.25rem" }, mb: 1 }}
+            >
               {currentArticleMeta?.title || currentSlug}
             </StyledText>
             {currentArticleMeta?.authors && currentArticleMeta.authors.length > 0 && (

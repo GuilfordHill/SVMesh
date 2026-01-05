@@ -17,8 +17,8 @@ As a community, the mesh is not used for much more than saying hello. And say he
 
 ## How do I get started?
 
-To get started, you will need a node. These can be bought pre-built or built yourself using readily available boards. Consult our [getting started guide](/getting-started) before your make your purchase for some good options in both categories, and for help getting connected to the mesh for the first time.
+To get started, you will need a node. These can be bought pre-built or built yourself using readily available boards. Consult our [getting started guide](/getting-started) before you make your purchase for some good options in both categories, and for help getting connected to the mesh for the first time.
 
 ## I want to join the community!
 
-We're glad to have you! We primarily operate on Discord and Facebook, come join us to talk all things mesh. Our community is filled with people who can help you on your path to getting online for the first time! Joining will also help you stay in the know about community events, mesh related issues or updates, and more. Come on in!
+We're glad to have you! We primarily operate on Discord and Facebook, head to our [socials page](/socials) to join the community. Our community is filled with people who can help you on your path to getting online for the first time! Joining will also help you stay in the know about community events, mesh related issues or updates, and more. Come on in!

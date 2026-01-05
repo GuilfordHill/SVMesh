@@ -65,12 +65,20 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
       </StyledText>
     ),
     h2: ({ children }: any) => (
-      <StyledText type="heading" component="h2" sx={{ mt: 0, mb: 2.5 }}>
+      <StyledText
+        type="heading"
+        component="h2"
+        sx={{ mt: 0, mb: 2.5, fontSize: { xs: "1.35rem", sm: "1.5rem", md: "1.65rem" } }}
+      >
         {children}
       </StyledText>
     ),
     h3: ({ children }: any) => (
-      <StyledText type="subheading" component="h3" sx={{ mt: 3, mb: 2 }}>
+      <StyledText
+        type="subheading"
+        component="h3"
+        sx={{ mt: 3, mb: 2, fontSize: { xs: "1.1rem", sm: "1.15rem", md: "1.25rem" } }}
+      >
         {children}
       </StyledText>
     ),
