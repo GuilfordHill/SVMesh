@@ -158,6 +158,7 @@ export default function Knowledgebase() {
           title="Knowledgebase"
           subtitle="Documentation and guides, based on research and testing on the Susquehanna Valley mesh network"
           backgroundPosition="center 60%"
+          attributionUrl="https://commons.wikimedia.org/wiki/File:Ridges_and_valleys_near_the_West_Branch_Susquehanna_River.jpg"
           height="25vh"
         />
         <PageSection>

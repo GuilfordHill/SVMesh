@@ -10,7 +10,8 @@ const pageData = {
   heroImage: susquehannaImage,
   rightImage: "",
   rightImageAlt: "",
-  attributionUrl: "",
+  attributionUrl:
+    "https://commons.wikimedia.org/wiki/File:Ridges_and_valleys_near_the_West_Branch_Susquehanna_River.jpg",
 };
 
 const dashboards = [
