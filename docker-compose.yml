@@ -32,8 +32,8 @@ services:
     expose:
       - "8080"
     volumes:
-      - ./pages:/app/wwwroot/content/pages:ro
-      - ./updates:/app/wwwroot/content/updates:ro
+      - ./pages:/app/wwwroot/content/pages
+      - ./updates:/app/wwwroot/content/updates
       - app-data:/app/data
     environment:
       - ASPNETCORE_ENVIRONMENT=Production
@@ -51,15 +51,7 @@ services:
     networks:
       - internal
     healthcheck:
-      test:
-        [
-          "CMD",
-          "wget",
-          "--quiet",
-          "--tries=1",
-          "--spider",
-          "http://localhost:8080/health",
-        ]
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/health"]
       interval: 30s
       timeout: 10s
       retries: 3

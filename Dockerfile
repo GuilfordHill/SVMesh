@@ -70,13 +70,17 @@ RUN addgroup -g 1001 -S appgroup && \
 WORKDIR /app
 COPY --from=backend-build --chown=appuser:appgroup /app/publish .
 
-# Create read-only directories for content mounts
-RUN mkdir -p /app/wwwroot/content/pages /app/wwwroot/content/updates && \
-    chown -R appuser:appgroup /app/wwwroot/content
+# Create directories for content mounts and data
+RUN mkdir -p /app/wwwroot/content/pages /app/wwwroot/content/updates /app/data && \
+    chown -R appuser:appgroup /app/wwwroot/content /app/data
 
-# Copy pages and updates content into the container
-COPY --chown=appuser:appgroup pages/ /app/wwwroot/content/pages/
-COPY --chown=appuser:appgroup updates/ /app/wwwroot/content/updates/
+# Copy default pages and updates content to a separate location
+COPY --chown=appuser:appgroup pages/ /app/pages.default/
+COPY --chown=appuser:appgroup updates/ /app/updates.default/
+
+# Copy the entrypoint script
+COPY --chown=appuser:appgroup docker-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
 # Remove any unnecessary files in one command
 RUN find /app -type f \( -name "*.pdb" -o -name "*.xml" \) -delete
@@ -97,4 +101,5 @@ ENV ASPNETCORE_ENVIRONMENT=Production \
     DOTNET_RUNNING_IN_CONTAINER=true \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
-ENTRYPOINT ["dotnet", "SVMesh.Server.dll"]
+ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
+CMD ["dotnet", "SVMesh.Server.dll"]

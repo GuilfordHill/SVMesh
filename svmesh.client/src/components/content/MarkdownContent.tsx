@@ -2,45 +2,81 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { StyledText, StyledLink, WarningBanner } from "../ui";
 import { Box } from "@mui/material";
+import NetworkDiagram from "./NetworkDiagram";
 
 interface MarkdownContentProps {
   content: string;
 }
 
 interface ContentPart {
-  type: "markdown" | "warning";
+  type: "markdown" | "warning" | "diagram";
   content: string;
   warningType?: "warning" | "critical" | "info";
   title?: string;
 }
 
-// Process custom warning syntax into separate parts
-function processWarnings(content: string): ContentPart[] {
+// Process custom syntax (warnings and diagrams) into separate parts
+function processCustomBlocks(content: string): ContentPart[] {
   const parts: ContentPart[] = [];
-  let lastIndex = 0;
+  const blockMatches: Array<{ index: number; length: number; part: ContentPart }> = [];
 
   // Find all warning blocks
   const warningRegex = /::(warning|critical|info)(?:\[(.*?)\])?\n([\s\S]*?)::\1/g;
   let match;
 
   while ((match = warningRegex.exec(content)) !== null) {
-    // Add markdown content before this warning
-    if (match.index > lastIndex) {
-      const markdownContent = content.slice(lastIndex, match.index).trim();
+    blockMatches.push({
+      index: match.index,
+      length: match[0].length,
+      part: {
+        type: "warning",
+        content: match[3].trim(),
+        warningType: match[1] as "warning" | "critical" | "info",
+        title: match[2] || undefined,
+      },
+    });
+  }
+
+  // Find all network diagram blocks (code blocks containing node diagrams)
+  const diagramRegex =
+    /```(?:network-diagram)?\n([\s\S]*?(?:Ingress|Base|Backbone)[\s\S]*?Node[\s\S]*?)```/g;
+  while ((match = diagramRegex.exec(content)) !== null) {
+    // Check if this looks like a network diagram
+    const diagramContent = match[1];
+    if (
+      diagramContent.includes("Node") &&
+      (diagramContent.includes("Ingress") ||
+        diagramContent.includes("Base") ||
+        diagramContent.includes("Backbone"))
+    ) {
+      blockMatches.push({
+        index: match.index,
+        length: match[0].length,
+        part: {
+          type: "diagram",
+          content: diagramContent.trim(),
+        },
+      });
+    }
+  }
+
+  // Sort matches by index
+  blockMatches.sort((a, b) => a.index - b.index);
+
+  // Build parts array
+  let lastIndex = 0;
+  for (const block of blockMatches) {
+    // Add markdown content before this block
+    if (block.index > lastIndex) {
+      const markdownContent = content.slice(lastIndex, block.index).trim();
       if (markdownContent) {
         parts.push({ type: "markdown", content: markdownContent });
       }
     }
 
-    // Add the warning
-    parts.push({
-      type: "warning",
-      content: match[3].trim(),
-      warningType: match[1] as "warning" | "critical" | "info",
-      title: match[2] || undefined,
-    });
-
-    lastIndex = match.index + match[0].length;
+    // Add the block
+    parts.push(block.part);
+    lastIndex = block.index + block.length;
   }
 
   // Add any remaining markdown content
@@ -55,7 +91,7 @@ function processWarnings(content: string): ContentPart[] {
 }
 
 export default function MarkdownContent({ content }: MarkdownContentProps) {
-  const contentParts = processWarnings(content);
+  const contentParts = processCustomBlocks(content);
 
   // Define shared markdown components
   const markdownComponents = {
@@ -209,6 +245,10 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
               </ReactMarkdown>
             </WarningBanner>
           );
+        }
+
+        if (part.type === "diagram") {
+          return <NetworkDiagram key={index} content={part.content} />;
         }
 
         return (
