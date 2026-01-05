@@ -1,25 +1,22 @@
 import { Box, Typography, Card, CardContent, CardActionArea } from "@mui/material";
-import { StyledText } from "../components/ui";
-import HeroSection from "../components/ui/HeroSection";
+import { StyledText, SimpleHero } from "../components/ui";
 import susquehannaImage from "../assets/susquehanna-valley.jpg";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
-// Page data for the Maps page
+// Page data for the Dashboards page
 const pageData = {
-  title: "Network Maps",
-  subtitle:
-    "Explore the Susquehanna Valley mesh network through interactive maps",
+  title: "Mesh Dashboards",
+  subtitle: "Explore the Susquehanna Valley mesh network through interactive dashboards",
   heroImage: susquehannaImage,
   rightImage: "",
   rightImageAlt: "",
   attributionUrl: "",
 };
 
-const maps = [
+const dashboards = [
   {
     title: "Malla Dashboard",
-    description:
-      "Logs Meshtastic packets from the Susquehanna Valley mesh network.",
+    description: "Logs Meshtastic packets from the Susquehanna Valley mesh network.",
     url: "https://malla.susme.sh/map",
     id: "coverage-map",
   },
@@ -31,31 +28,41 @@ const maps = [
   },
   {
     title: "MeshView",
-    description:
-      "Simple map of nodes and conversations in the Susquehanna Valley mesh network.",
+    description: "Simple map of nodes and conversations in the Susquehanna Valley mesh network.",
     url: "https://meshview.susme.sh/map",
     id: "topology-map",
   },
 ];
 
-export default function Maps() {
+export default function Dashboards() {
   return (
     <>
-      <HeroSection
+      <SimpleHero
         backgroundImage={pageData.heroImage}
         title={pageData.title}
         subtitle={pageData.subtitle}
-        rightImage={pageData.rightImage}
-        rightImageAlt={pageData.rightImageAlt}
+        backgroundPosition="center 60%"
+        height="30vh"
         attributionUrl={pageData.attributionUrl}
       />
 
       <Box sx={{ py: { xs: 4, md: 6 }, px: { xs: 2, md: 4 } }}>
         <Box sx={{ maxWidth: "1200px", mx: "auto" }}>
-          <StyledText type="body-large" sx={{ mb: 4, textAlign: "center" }}>
-            Explore our mesh network through these interactive maps. Each map
-            provides different insights into our network coverage, node status,
-            and topology.
+          <StyledText type="body-large" sx={{ mb: 2, textAlign: "center" }}>
+            The SVMesh group maintains multiple tools for monitoring and diagnosing mesh issues. You
+            can view the mesh network in real time with these interactive dashboards. Each dashboard
+            provides different insights into coverage, node status, and packet flow so you can see
+            exactly what is happening across the network, and could be useful in some scenarios for
+            troubleshooting your own nodes.{" "}
+            <b>
+              However, since Meshtastic is imperfect and each dashboard uses its own node for
+              ingress, not all nodes may appear on these dashboards.
+            </b>
+          </StyledText>
+          <StyledText type="body" sx={{ mb: 4, textAlign: "center", color: "text.secondary" }}>
+            Malla is the most fully-featured, logging every packet sent across the mesh. Mesh
+            Monitor and MeshView are lighter-weight visualizations of the nodes across the mesh,
+            better for a quick overview of active nodes.
           </StyledText>
 
           <Box
@@ -69,9 +76,9 @@ export default function Maps() {
               gap: { xs: 2, md: 3 },
             }}
           >
-            {maps.map((map) => (
+            {dashboards.map((dashboard) => (
               <Card
-                key={map.id}
+                key={dashboard.id}
                 elevation={3}
                 sx={{
                   height: "100%",
@@ -86,7 +93,7 @@ export default function Maps() {
               >
                 <CardActionArea
                   component="a"
-                  href={map.url}
+                  href={dashboard.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   sx={{
@@ -121,23 +128,30 @@ export default function Maps() {
                           color: "primary.main",
                         }}
                       >
-                        {map.title}
+                        {dashboard.title}
                       </Typography>
-                      <OpenInNewIcon
-                        sx={{ fontSize: 20, color: "primary.main" }}
-                      />
+                      <OpenInNewIcon sx={{ fontSize: 20, color: "primary.main" }} />
                     </Box>
-                    <StyledText
-                      type="body"
-                      sx={{ color: "text.secondary", flexGrow: 1 }}
-                    >
-                      {map.description}
+                    <StyledText type="body" sx={{ color: "text.secondary", flexGrow: 1 }}>
+                      {dashboard.description}
                     </StyledText>
                   </CardContent>
                 </CardActionArea>
               </Card>
             ))}
           </Box>
+
+          <StyledText
+            type="body"
+            sx={{
+              mt: 4,
+              textAlign: "center",
+              color: "text.secondary",
+            }}
+          >
+            Need help interpreting the data? Join us by visiting our{" "}
+            <a href="/socials">socials page</a>, and chat with the community!
+          </StyledText>
         </Box>
       </Box>
     </>

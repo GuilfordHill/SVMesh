@@ -47,8 +47,7 @@ export default function MarkdownPage() {
         const { files }: { files: string[] } = await listResponse.json();
         const normalizedSlug = slug.toLowerCase();
         const hasPage = files.some(
-          (fileName) =>
-            fileName.replace(/\.md$/, "").toLowerCase() === normalizedSlug
+          (fileName) => fileName.replace(/\.md$/, "").toLowerCase() === normalizedSlug
         );
 
         if (!hasPage) {
@@ -63,8 +62,7 @@ export default function MarkdownPage() {
         }
       } catch (err) {
         if (cancelled) return;
-        const message =
-          err instanceof Error ? err.message : "Failed to load page content";
+        const message = err instanceof Error ? err.message : "Failed to load page content";
         setError(message);
       } finally {
         if (!cancelled) {
@@ -83,8 +81,8 @@ export default function MarkdownPage() {
     return <Navigate to="/" replace />;
   }
 
-  if (slug === "maps") {
-    return <Navigate to="/maps" replace />;
+  if (slug === "dashboards") {
+    return <Navigate to="/dashboards" replace />;
   }
 
   if (loading) {

@@ -7,7 +7,8 @@ import ErrorScreen from "./components/ErrorScreen.tsx";
 
 // Lazy load page components for code splitting
 const Home = lazy(() => import("./pages/Home.tsx"));
-const Maps = lazy(() => import("./pages/Maps.tsx"));
+const Dashboards = lazy(() => import("./pages/Dashboards.tsx"));
+const Socials = lazy(() => import("./pages/Socials.tsx"));
 const MarkdownPage = lazy(() => import("./pages/MarkdownPage.tsx"));
 
 // Loader for 404 routes that throws an error
@@ -36,8 +37,12 @@ export const router = createBrowserRouter([
         Component: Home,
       },
       {
-        path: "maps",
-        Component: Maps,
+        path: "dashboards",
+        Component: Dashboards,
+      },
+      {
+        path: "socials",
+        Component: Socials,
       },
       {
         path: ":slug",

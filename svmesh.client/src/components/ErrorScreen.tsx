@@ -11,10 +11,11 @@ interface ErrorScreenProps {
 export default function ErrorScreen({ error: propError }: ErrorScreenProps) {
   const routeError = useRouteError();
   const navigate = useNavigate();
-  
+
   // Get error message from either the prop or the route error
   const error = propError || (routeError instanceof Error ? routeError : null);
-  const errorMessage = error?.message || (typeof routeError === 'string' ? routeError : 'Unknown error');
+  const errorMessage =
+    error?.message || (typeof routeError === "string" ? routeError : "Unknown error");
 
   return (
     <Box
@@ -86,10 +87,7 @@ export default function ErrorScreen({ error: propError }: ErrorScreenProps) {
               maxHeight: "200px",
             }}
           >
-            <StyledText
-              type="body"
-              sx={{ fontFamily: "monospace", fontSize: "0.8rem" }}
-            >
+            <StyledText type="body" sx={{ fontFamily: "monospace", fontSize: "0.8rem" }}>
               <strong>Error Details:</strong>
               <br />
               {errorMessage}
@@ -97,13 +95,8 @@ export default function ErrorScreen({ error: propError }: ErrorScreenProps) {
           </Box>
         )}
 
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => navigate("/")}
-          sx={{ mt: 2 }}
-        >
-          Go to Home
+        <Button variant="contained" color="primary" onClick={() => navigate("/")} sx={{ mt: 2 }}>
+          Go home
         </Button>
       </Box>
 

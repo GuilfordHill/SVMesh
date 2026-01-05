@@ -5,15 +5,16 @@ export interface MenuItem {
   href: string;
 }
 
-const STATIC_PAGES = ["Home", "Maps"];
+const STATIC_PAGES = ["Home", "Dashboards", "Socials"];
 const STATIC_MENU_ITEMS: MenuItem[] = [
   { name: "Home", href: "/" },
-  { name: "Maps", href: "/maps" },
+  { name: "Dashboards", href: "/dashboards" },
+  { name: "Socials", href: "/socials" },
 ];
 
 /**
  * Hook to load menu items dynamically from markdown files
- * and combine them with static pages like Home and Maps
+ * and combine them with static pages like Home and Dashboards
  */
 export function useMenuItems(): MenuItem[] {
   const [dynamicItems, setDynamicItems] = useState<MenuItem[]>([]);

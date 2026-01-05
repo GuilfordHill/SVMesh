@@ -1,12 +1,12 @@
 ---
 title: "Welcome to SVMesh"
 date: "2025-12-07"
-summary: "We're excited to launch the Susquehanna Valley Meshtastic community website."
+summary: "We're excited to launch the Susquehanna Valley Mesh community website."
 ---
 
 # Welcome to SVMesh
 
-We're thrilled to announce the launch of our new community website! This platform will serve as the central hub for Susquehanna Valley Meshtastic enthusiasts.
+We're thrilled to announce the launch of our new community website! This platform will serve as the central hub for Susquehanna Valley mesh enthusiasts.
 
 ## What's New
 

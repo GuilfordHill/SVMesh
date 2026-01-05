@@ -39,4 +39,4 @@ It is highly recommended to flash your device with the latest firmware before fi
 
 Now your device should be powered on and ready to go! Before you can talk, you must set your region. Connect to your node using the [Meshtastic web client](https://client.meshtastic.org/) or the Meshtastic companion app on your mobile device. Head to `Settings > LoRa`, and set your region to `US`. **After your region is set, your node will restart and begin transmitting. Make sure your antenna is connected!**
 
-After your node reboots, you will have to head to our [Channel Settings] page to get the latest channel settings to connect to our mesh. After your settings are set, you're good to go!
+After your node reboots, you will have to head to our [Channel Settings](/channel-settings) page to get the latest channel settings to connect to our mesh. After your settings are set, you're good to go!
