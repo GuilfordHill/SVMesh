@@ -27,46 +27,9 @@ The upcoming website for the Susquehanna Valley Mesh, serving the centeral Penns
 - Traefik reverse proxy integration
 - Multi-stage Docker builds for optimization
 
-## 📋 Prerequisites
+## Building SVMesh
 
-- **Docker** (20.10+)
-- **Docker Compose** (2.0+)
-- **Node.js** (18+) - for local development
-- **.NET 8.0 SDK** - for local development
-- **Domain name** - for production deployments
-
-## 🚀 Quick Start
-
-### Development
-
-1. **Clone the repository**
-
-   ```bash
-   git clone <repository-url>
-   cd svmesh
-   ```
-
-2. **Start development environment**
-
-   ```bash
-   # Option 1: Using Docker Compose for development (recommended)
-   docker-compose -f configs/docker-compose.dev.yml up
-
-   # Option 2: Run components separately for active development
-   # Terminal 1 - Backend
-   cd SVMesh.Server && dotnet run
-
-   # Terminal 2 - Frontend
-   cd svmesh.client && npm run dev
-
-   # Option 3: Production-like environment
-   docker-compose up
-   ```
-
-3. **Access the application**
-   - Frontend: http://localhost:5173
-   - Backend API: http://localhost:5000
-   - API Documentation: http://localhost:5000/swagger
+We use Docker to run the app stack, with a Docker Compose file provided. After cloning the repository, run `docker compose up -d --build` to run the site. By default, the site will be available on port 8081.
 
 ### Production Deployment
 

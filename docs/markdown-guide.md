@@ -10,91 +10,6 @@ This guide explains the markdown formatting features available for SVMesh pages 
 - [Page vs Update Structure](#page-vs-update-structure)
 - [Best Practices](#best-practices)
 
-## Basic Markdown Syntax
-
-SVMesh supports all standard markdown formatting with enhanced styling through Material-UI components.
-
-### Headings
-
-```markdown
-# Heading 1 (Main Title)
-## Heading 2 (Section)
-### Heading 3 (Subsection)
-```
-
-**Rendered as:**
-- **H1**: Large heading with top margin spacing
-- **H2**: Medium heading with section spacing  
-- **H3**: Smaller subheading with reduced spacing
-
-### Text Formatting
-
-```markdown
-**Bold text**
-*Italic text*
-`Inline code`
-[Link text](https://example.com)
-[Internal link](./other-page)
-```
-
-**Features:**
-- Links automatically open in new tabs if they start with `http`
-- Internal links stay in the same tab (ex. `/getting-started`)
-- Inline code gets monospace font with background highlighting
-
-### Lists
-
-```markdown
-- Unordered list item 1
-- Unordered list item 2
-  - Nested item
-  - Another nested item
-
-1. Ordered list item 1
-2. Ordered list item 2
-   1. Nested numbered item
-   2. Another nested item
-```
-
-**Features:**
-- Proper spacing and indentation
-- Support for nested lists
-- Consistent bullet styling
-
-### Blockquotes
-
-```markdown
-> This is a blockquote
-> It can span multiple lines
-> 
-> And include multiple paragraphs
-```
-
-**Styling:**
-- Left border in primary theme color
-- Background highlighting
-- Proper padding and spacing
-
-### Code Blocks
-
-```markdown
-\```javascript
-function example() {
-  console.log("Code block example");
-}
-\```
-
-\```bash
-# Shell commands
-npm install package-name
-\```
-```
-
-**Features:**
-- Syntax highlighting (language-specific)
-- Monospace font
-- Background highlighting for readability
-
 ## Special Banner Components
 
 SVMesh includes three types of special banner components for highlighting important information.
@@ -109,6 +24,7 @@ You can use **markdown** inside warning banners.
 ```
 
 **Usage:**
+
 - Use for important notices that need attention
 - Yellow/amber color scheme
 - Warning icon automatically included
@@ -123,6 +39,7 @@ Use for **urgent** information or security warnings.
 ```
 
 **Usage:**
+
 - Use for urgent issues, security warnings, or critical problems
 - Red color scheme with error styling
 - Error icon automatically included
@@ -137,6 +54,7 @@ Perfect for tips, additional context, or helpful information.
 ```
 
 **Usage:**
+
 - Use for helpful tips, additional context, or supplementary information
 - Blue color scheme
 - Info icon automatically included
@@ -183,6 +101,7 @@ attributionUrl: "https://source-attribution-url.com"
 ```
 
 **Fields:**
+
 - **title** (required): Main page title
 - **subtitle** (optional): Displayed in hero section
 - **heroImage** (optional): Background image for hero section
@@ -202,6 +121,7 @@ tag: "category-name"
 ```
 
 **Fields:**
+
 - **title** (required): Update title for listings and display
 - **date** (required): Publication date in YYYY-MM-DD format
 - **summary** (required): Brief summary for update listings
@@ -211,13 +131,14 @@ tag: "category-name"
 
 ### Page Structure
 
-Pages are static content like guides, documentation, or reference materials:
+Pages have static content and get their own listing in the header menu:
 
 ```
 /pages/page-name.md
 ```
 
 **Example page:**
+
 ```markdown
 ---
 title: "Channel Settings Guide"
@@ -236,18 +157,19 @@ Most users can use the default channel settings for basic operation.
 
 1. Open the Meshtastic app
 2. Navigate to channel settings
-...
+   ...
 ```
 
 ### Update Structure
 
-Updates are time-sensitive posts like news, announcements, or community updates:
+Updates are time-sensitive posts like news, announcements, or community updates, and show up on the home page:
 
 ```
 /updates/update-filename.md
 ```
 
 **Example update:**
+
 ```markdown
 ---
 title: "Community Meeting Scheduled"
@@ -259,10 +181,6 @@ tag: "community"
 # Monthly Community Meeting
 
 We're excited to announce our next community meeting...
-
-::warning[Time Change]
-Please note this month's meeting is 30 minutes earlier than usual.
-::warning
 ```
 
 ## Best Practices
@@ -280,7 +198,7 @@ Please note this month's meeting is 30 minutes earlier than usual.
 1. **Don't overuse banners** - They lose impact if used too frequently
 2. **Choose appropriate types**:
    - `::info` for helpful tips and additional context
-   - `::warning` for important notices and cautions  
+   - `::warning` for important notices and cautions
    - `::critical` for urgent issues and security warnings
 3. **Keep banner content concise** - Long banners become hard to read
 4. **Use markdown inside banners** - Enhance readability with formatting
@@ -288,11 +206,14 @@ Please note this month's meeting is 30 minutes earlier than usual.
 ### Frontmatter Best Practices
 
 **For Pages:**
+
 - Keep titles concise but descriptive
 - Use subtitles to provide additional context
 - Ensure hero images are optimized for web use
+- Provide an attribution URL for any images sourced from the Internet.
 
 **For Updates:**
+
 - Use consistent date formatting (YYYY-MM-DD)
 - Write compelling summaries for feed listings
 - Use consistent tag naming (lowercase, hyphenated)
@@ -313,15 +234,17 @@ updates/
 
 ### Common Formatting Examples
 
-**Tables** (standard markdown):
+**Tables**:
+
 ```markdown
-| Device | Battery Life | GPS | Price |
-|--------|-------------|-----|--------|
-| T1000-E | 7 days | Yes | $89 |
-| R1 Neo | 5 days | Yes | $129 |
+| Device  | Battery Life | GPS | Price |
+| ------- | ------------ | --- | ----- |
+| T1000-E | 7 days       | Yes | $89   |
+| R1 Neo  | 5 days       | Yes | $129  |
 ```
 
 **Task Lists**:
+
 ```markdown
 - [x] Complete basic setup
 - [x] Configure channels
@@ -330,6 +253,7 @@ updates/
 ```
 
 **Complex Example**:
+
 ```markdown
 # Device Configuration
 
@@ -350,10 +274,10 @@ If your device doesn't appear, try resetting the Bluetooth connection.
 
 Configure your channels using these settings:
 
-| Setting | Value | Notes |
-|---------|--------|--------|
-| Name | "LongFast" | Default channel |
-| Frequency | 915MHz | US frequency |
+| Setting   | Value      | Notes           |
+| --------- | ---------- | --------------- |
+| Name      | "LongFast" | Default channel |
+| Frequency | 915MHz     | US frequency    |
 
 ::critical[Important]
 Never use channels that interfere with emergency services.
@@ -361,5 +285,3 @@ Never use channels that interfere with emergency services.
 
 Your device is now ready for mesh networking!
 ```
-
-This documentation should help content creators understand all the available formatting options and use them effectively to create engaging, well-structured content for the SVMesh platform.

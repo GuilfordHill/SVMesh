@@ -9,6 +9,7 @@ import ErrorScreen from "./components/ErrorScreen.tsx";
 const Home = lazy(() => import("./pages/Home.tsx"));
 const Dashboards = lazy(() => import("./pages/Dashboards.tsx"));
 const Socials = lazy(() => import("./pages/Socials.tsx"));
+const Knowledgebase = lazy(() => import("./pages/Knowledgebase.tsx"));
 const MarkdownPage = lazy(() => import("./pages/MarkdownPage.tsx"));
 
 // Loader for 404 routes that throws an error
@@ -43,6 +44,14 @@ export const router = createBrowserRouter([
       {
         path: "socials",
         Component: Socials,
+      },
+      {
+        path: "knowledgebase",
+        Component: Knowledgebase,
+      },
+      {
+        path: "knowledgebase/:article",
+        Component: Knowledgebase,
       },
       {
         path: ":slug",
