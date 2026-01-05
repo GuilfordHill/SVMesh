@@ -65,7 +65,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
       </StyledText>
     ),
     h2: ({ children }: any) => (
-      <StyledText type="heading" component="h2" sx={{ mt: 4, mb: 2.5 }}>
+      <StyledText type="heading" component="h2" sx={{ mt: 0, mb: 2.5 }}>
         {children}
       </StyledText>
     ),
