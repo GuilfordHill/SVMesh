@@ -1,13 +1,9 @@
 import { useEffect, useState } from "react";
-import { Box, CircularProgress } from "@mui/material";
-import RecentUpdates from "../components/RecentUpdates";
-import MarkdownContent from "../components/MarkdownContent";
-import {
-  HeroSection,
-  PageSection,
-  ContentGrid,
-  StyledText,
-} from "../components/ui";
+import { Box, CircularProgress, useMediaQuery, useTheme } from "@mui/material";
+import RecentUpdates from "../components/content/RecentUpdates";
+import RecentUpdatesMobileMenu from "../components/menus/RecentUpdatesMobileMenu";
+import MarkdownContent from "../components/content/MarkdownContent";
+import { HeroSection, PageSection, ContentGrid, StyledText } from "../components/ui";
 import { parsePageMarkdown, type ParsedPage } from "../utils/pageMarkdown";
 import { useUpdates } from "../hooks/useUpdates";
 
@@ -24,6 +20,8 @@ export default function Home() {
   const [pageData, setPageData] = useState<ParsedPage | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
   const { posts, loading: updatesLoading, error: updatesError } = useUpdates();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   useEffect(() => {
     const loadPageContent = async () => {
@@ -71,15 +69,11 @@ export default function Home() {
   return (
     <>
       <HeroSection
-        backgroundImage={
-          metadata.heroImage ? assetMap[metadata.heroImage] : susquehannaValley
-        }
+        backgroundImage={metadata.heroImage ? assetMap[metadata.heroImage] : susquehannaValley}
         title={metadata.title || "We mesh well together."}
         subtitle={metadata.subtitle || ""}
         textAlign="left"
-        rightImage={
-          metadata.rightImage ? assetMap[metadata.rightImage] : undefined
-        }
+        rightImage={metadata.rightImage ? assetMap[metadata.rightImage] : undefined}
         rightImageAlt={metadata.rightImageAlt || ""}
         attributionUrl={metadata.attributionUrl || ""}
       />
@@ -91,7 +85,13 @@ export default function Home() {
               <MarkdownContent content={content} />
             </>
           }
-          sideContent={<RecentUpdates posts={posts} error={updatesError} />}
+          sideContent={
+            isMobile ? (
+              <RecentUpdatesMobileMenu posts={posts} error={updatesError} />
+            ) : (
+              <RecentUpdates posts={posts} error={updatesError} />
+            )
+          }
         />
       </PageSection>
     </>

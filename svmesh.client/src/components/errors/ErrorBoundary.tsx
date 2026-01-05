@@ -30,9 +30,7 @@ export default class ErrorBoundary extends Component<Props, State> {
 
   render() {
     if (this.state.hasError) {
-      return (
-        <ErrorScreen error={this.state.error} resetError={this.resetError} />
-      );
+      return <ErrorScreen error={this.state.error} resetError={this.resetError} />;
     }
 
     return this.props.children;

@@ -1,7 +1,8 @@
 import { Box, Container, Stack, Link } from "@mui/material";
-import { StyledText } from "./ui";
+import { StyledText } from "../ui";
+import { SOCIAL_LINKS } from "../../config/social";
 
-export default function Footer() {
+export default function FooterMenu() {
   const currentYear = new Date().getFullYear();
 
   return (
@@ -33,7 +34,7 @@ export default function Footer() {
 
           <Stack direction="row" spacing={3} alignItems="center">
             <Link
-              href="https://discord.gg/svmesh"
+              href={SOCIAL_LINKS.discord}
               target="_blank"
               rel="noopener noreferrer"
               sx={{
@@ -46,7 +47,7 @@ export default function Footer() {
               Discord
             </Link>
             <Link
-              href="https://www.facebook.com/groups/svmesh"
+              href={SOCIAL_LINKS.facebook}
               target="_blank"
               rel="noopener noreferrer"
               sx={{

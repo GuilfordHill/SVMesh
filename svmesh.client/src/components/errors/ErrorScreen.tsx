@@ -1,7 +1,7 @@
 import { Box, Button } from "@mui/material";
 import { useRouteError, useNavigate } from "react-router";
-import { StyledText } from "./ui";
-import svmeshLogo from "../assets/svmesh.png";
+import { StyledText } from "../ui";
+import svmeshLogo from "../../assets/svmesh.png";
 
 interface ErrorScreenProps {
   error?: Error;

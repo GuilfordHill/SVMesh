@@ -11,6 +11,9 @@ WORKDIR /app/client
 COPY svmesh.client/package*.json ./
 RUN npm ci --include=dev --prefer-offline --no-audit --legacy-peer-deps
 
+# Copy environment configuration
+COPY svmesh.client/.env* ./
+
 # Copy only necessary source files (exclude node_modules, dist, etc.)
 COPY svmesh.client/src ./src
 COPY svmesh.client/public ./public
@@ -37,6 +40,8 @@ COPY SVMesh.Server/*.cs ./
 COPY SVMesh.Server/*.json ./
 COPY SVMesh.Server/Properties/ ./Properties/
 COPY SVMesh.Server/Controllers/ ./Controllers/
+COPY SVMesh.Server/Services/ ./Services/
+COPY SVMesh.Server/Models/ ./Models/
 
 # Copy the built frontend from the previous stage
 COPY --from=frontend-build /app/client/dist ./wwwroot

@@ -5,9 +5,17 @@ export interface MenuItem {
   href: string;
 }
 
-const STATIC_PAGES = ["Home", "Dashboards", "Knowledgebase", "Socials"];
+const STATIC_PAGES = [
+  "getting-started",
+  "channel-settings",
+  "dashboards",
+  "knowledgebase",
+  "socials",
+  "home",
+];
 const STATIC_MENU_ITEMS: MenuItem[] = [
-  { name: "Home", href: "/" },
+  { name: "Getting Started", href: "/getting-started" },
+  { name: "Channel Settings", href: "/channel-settings" },
   { name: "Dashboards", href: "/dashboards" },
   { name: "Knowledgebase", href: "/knowledgebase" },
   { name: "Socials", href: "/socials" },

@@ -8,11 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MenuIcon from "@mui/icons-material/Menu";
-import svmeshLogo from "../assets/svmesh.png";
+import svmeshLogo from "../../assets/svmesh.png";
 import { Stack, useMediaQuery, useTheme } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { useState } from "react";
-import { useMenuItems } from "../hooks/useMenuItems";
+import { useMenuItems } from "../../hooks/useMenuItems";
 
 const NavigationButton = styled(Button)(({ theme }) => ({
   fontWeight: 500,
@@ -28,7 +28,6 @@ const NavigationButton = styled(Button)(({ theme }) => ({
 export default function HeaderMenu() {
   const links = useMenuItems();
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-  const [shouldError, setShouldError] = useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -40,24 +39,10 @@ export default function HeaderMenu() {
     setAnchorEl(null);
   };
 
-  const handleTestError = () => {
-    setShouldError(true);
-  };
-
-  if (shouldError) {
-    throw new Error("Test error triggered from header!");
-  }
-
   return (
-    <AppBar
-      position="static"
-      sx={{ width: "100%", backgroundColor: "#f6eedf", zIndex: 1300 }}
-    >
+    <AppBar position="static" sx={{ width: "100%", backgroundColor: "#f6eedf", zIndex: 1300 }}>
       <Toolbar sx={{ justifyContent: "space-between", px: { xs: 2, md: 3 } }}>
-        <Link
-          href="/"
-          sx={{ textDecoration: "none", display: "flex", flex: 1 }}
-        >
+        <Link href="/" sx={{ textDecoration: "none", display: "flex", flex: 1 }}>
           <Stack direction="row" alignItems="center" spacing={{ xs: 1, md: 2 }}>
             <img
               src={svmeshLogo}
@@ -100,12 +85,7 @@ export default function HeaderMenu() {
             >
               <MenuIcon />
             </IconButton>
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-              sx={{ mt: 1 }}
-            >
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose} sx={{ mt: 1 }}>
               {links.map((link) => (
                 <MenuItem key={link.name} onClick={handleClose}>
                   <Link
@@ -123,42 +103,17 @@ export default function HeaderMenu() {
                   </Link>
                 </MenuItem>
               ))}
-              <MenuItem onClick={handleTestError}>
-                <Typography
-                  sx={{
-                    color: "error.main",
-                    fontWeight: 500,
-                    py: 1,
-                    px: 2,
-                  }}
-                >
-                  Test Error
-                </Typography>
-              </MenuItem>
             </Menu>
           </Box>
         ) : (
           <Box>
             {links.map((link) => (
-              <NavigationButton
-                key={link.name}
-                color="secondary"
-                href={link.href}
-              >
+              <NavigationButton key={link.name} color="secondary" href={link.href}>
                 <Typography variant="button" color="inherit">
                   {link.name}
                 </Typography>
               </NavigationButton>
             ))}
-            <NavigationButton
-              color="secondary"
-              onClick={handleTestError}
-              sx={{ color: "error.main" }}
-            >
-              <Typography variant="button" color="inherit">
-                Test Error
-              </Typography>
-            </NavigationButton>
           </Box>
         )}
       </Toolbar>

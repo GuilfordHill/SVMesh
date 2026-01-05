@@ -1,8 +1,8 @@
 import { Box } from "@mui/material";
-import { useUpdates } from "../hooks/useUpdates";
-import { RecentUpdatesList } from "./updates";
-import { StyledText } from "./ui";
-import type { UpdatePost } from "../utils/markdown";
+import { useUpdates } from "../../hooks/useUpdates";
+import { RecentUpdatesList } from "../updates";
+import { StyledText } from "../ui";
+import type { UpdatePost } from "../../utils/markdown";
 
 interface RecentUpdatesProps {
   posts?: UpdatePost[];

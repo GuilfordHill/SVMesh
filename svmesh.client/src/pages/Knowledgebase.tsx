@@ -14,7 +14,7 @@ import {
 import SearchIcon from "@mui/icons-material/Search";
 import ArticleIcon from "@mui/icons-material/Article";
 import { SimpleHero, PageSection, StyledText } from "../components/ui";
-import MarkdownContent from "../components/MarkdownContent";
+import MarkdownContent from "../components/content/MarkdownContent";
 import susquehannaValley from "../assets/susquehanna-valley.jpg";
 
 interface KBArticle {

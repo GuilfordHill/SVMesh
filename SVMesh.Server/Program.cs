@@ -1,12 +1,16 @@
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.Extensions.FileProviders;
 using System.Threading.RateLimiting;
+using SVMesh.Server.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddHealthChecks();
+
+// Register application services
+builder.Services.AddScoped<IContentService, ContentService>();
 
 // Configure Kestrel for production
 builder.WebHost.ConfigureKestrel(options =>

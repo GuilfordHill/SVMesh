@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Navigate, useParams } from "react-router";
 import { Box, CircularProgress } from "@mui/material";
-import MarkdownContent from "../components/MarkdownContent";
+import MarkdownContent from "../components/content/MarkdownContent";
 import { PageSection, SimpleHero } from "../components/ui";
 import { parsePageMarkdown, type ParsedPage } from "../utils/pageMarkdown";
 

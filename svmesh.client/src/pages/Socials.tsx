@@ -3,6 +3,7 @@ import { SimpleHero, PageSection, StyledText } from "../components/ui";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import susquehannaValley from "../assets/susquehanna-valley.jpg";
 import discordLogo from "../assets/discord.png";
+import { SOCIAL_LINKS } from "../config/social";
 
 function DiscordIcon() {
   return (
@@ -106,12 +107,12 @@ export default function Socials() {
           >
             <SocialLogoCard
               title="Discord Server"
-              href="https://discord.gg/svmesh"
+              href={SOCIAL_LINKS.discord}
               icon={<DiscordIcon />}
             />
             <SocialLogoCard
               title="Facebook Group"
-              href="https://www.facebook.com/groups/svmesh"
+              href={SOCIAL_LINKS.facebook}
               icon={<FacebookIcon sx={{ fontSize: 80 }} />}
             />
           </Box>

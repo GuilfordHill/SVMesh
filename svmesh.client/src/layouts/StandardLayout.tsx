@@ -1,7 +1,7 @@
 import { Outlet } from "react-router";
 import { Suspense } from "react";
-import HeaderMenu from "../components/HeaderMenu";
-import Footer from "../components/Footer";
+import HeaderMenu from "../components/menus/HeaderMenu";
+import FooterMenu from "../components/menus/FooterMenu";
 import { Stack, CircularProgress, Box } from "@mui/material";
 
 export default function StandardLayout() {
@@ -20,7 +20,7 @@ export default function StandardLayout() {
             <Outlet />
           </Suspense>
         </Box>
-        <Footer />
+        <FooterMenu />
       </Stack>
     </>
   );

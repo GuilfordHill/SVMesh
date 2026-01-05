@@ -2,8 +2,8 @@ import { createBrowserRouter } from "react-router";
 import type { LoaderFunctionArgs } from "react-router";
 import { lazy } from "react";
 import StandardLayout from "./layouts/StandardLayout.tsx";
-import ErrorBoundary from "./components/ErrorBoundary.tsx";
-import ErrorScreen from "./components/ErrorScreen.tsx";
+import ErrorBoundary from "./components/errors/ErrorBoundary.tsx";
+import ErrorScreen from "./components/errors/ErrorScreen.tsx";
 
 // Lazy load page components for code splitting
 const Home = lazy(() => import("./pages/Home.tsx"));

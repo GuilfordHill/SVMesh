@@ -1,6 +1,6 @@
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import { StyledText, StyledLink, WarningBanner } from "./ui";
+import { StyledText, StyledLink, WarningBanner } from "../ui";
 import { Box } from "@mui/material";
 
 interface MarkdownContentProps {
@@ -18,11 +18,11 @@ interface ContentPart {
 function processWarnings(content: string): ContentPart[] {
   const parts: ContentPart[] = [];
   let lastIndex = 0;
-  
+
   // Find all warning blocks
   const warningRegex = /::(warning|critical|info)(?:\[(.*?)\])?\n([\s\S]*?)::\1/g;
   let match;
-  
+
   while ((match = warningRegex.exec(content)) !== null) {
     // Add markdown content before this warning
     if (match.index > lastIndex) {
@@ -31,7 +31,7 @@ function processWarnings(content: string): ContentPart[] {
         parts.push({ type: "markdown", content: markdownContent });
       }
     }
-    
+
     // Add the warning
     parts.push({
       type: "warning",
@@ -39,10 +39,10 @@ function processWarnings(content: string): ContentPart[] {
       warningType: match[1] as "warning" | "critical" | "info",
       title: match[2] || undefined,
     });
-    
+
     lastIndex = match.index + match[0].length;
   }
-  
+
   // Add any remaining markdown content
   if (lastIndex < content.length) {
     const remaining = content.slice(lastIndex).trim();
@@ -50,7 +50,7 @@ function processWarnings(content: string): ContentPart[] {
       parts.push({ type: "markdown", content: remaining });
     }
   }
-  
+
   return parts;
 }
 
@@ -60,7 +60,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
   // Define shared markdown components
   const markdownComponents = {
     h1: ({ children }: any) => (
-      <StyledText type="heading" component="h1" sx={{ mt: 4, mb: 3 }}>
+      <StyledText type="heading" component="h1" sx={{ mt: 0, mb: 3 }}>
         {children}
       </StyledText>
     ),
@@ -80,10 +80,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
       </StyledText>
     ),
     a: ({ href, children }: any) => (
-      <StyledLink
-        href={href || "#"}
-        target={href?.startsWith("http") ? "_blank" : undefined}
-      >
+      <StyledLink href={href || "#"} target={href?.startsWith("http") ? "_blank" : undefined}>
         {children}
       </StyledLink>
     ),
@@ -190,11 +187,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
       {contentParts.map((part, index) => {
         if (part.type === "warning") {
           return (
-            <WarningBanner
-              key={index}
-              type={part.warningType!}
-              title={part.title}
-            >
+            <WarningBanner key={index} type={part.warningType!} title={part.title}>
               <ReactMarkdown
                 components={{
                   p: ({ children }: any) => (
@@ -209,13 +202,9 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
             </WarningBanner>
           );
         }
-        
+
         return (
-          <ReactMarkdown
-            remarkPlugins={[remarkGfm]}
-            key={index}
-            components={markdownComponents}
-          >
+          <ReactMarkdown remarkPlugins={[remarkGfm]} key={index} components={markdownComponents}>
             {part.content}
           </ReactMarkdown>
         );

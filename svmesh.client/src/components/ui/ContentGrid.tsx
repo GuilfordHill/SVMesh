@@ -19,9 +19,14 @@ export default function ContentGrid({
 }: ContentGridProps) {
   return (
     <Grid container spacing={{ xs: 3, md: spacing }}>
-      <Grid size={{ xs: 12, md: mainSize }}>{mainContent}</Grid>
+      <Grid size={{ xs: 12, md: mainSize }} sx={{ order: { xs: 2, md: 1 } }}>
+        {mainContent}
+      </Grid>
       {sideContent && (
-        <Grid size={{ xs: 12, md: sideSize }} sx={{ mt: { xs: 3, md: 0 } }}>
+        <Grid
+          size={{ xs: 12, md: sideSize }}
+          sx={{ order: { xs: 1, md: 2 }, mb: { xs: 0, md: 0 } }}
+        >
           {sideContent}
         </Grid>
       )}
