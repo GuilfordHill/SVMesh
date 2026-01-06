@@ -123,25 +123,25 @@ export default function Socials() {
             </StyledText>
             <Box component="ul" sx={{ pl: 3, m: 0 }}>
               <StyledText component="li" type="body-large">
-                Be kind and civil: Respect everyone. No harassment, hate, bullying, or aggressive
+                <b>Be kind and civil</b>: Respect everyone. No harassment, hate, bullying, or aggressive
                 behavior. Disagreements are fine—keep them constructive.
               </StyledText>
               <StyledText component="li" type="body-large">
-                Stay on-topic, no spam: Avoid ads, excessive self-promo, or off-topic links unless
+                <b>Stay on-topic, no spam</b>: Avoid ads, excessive self-promo, or off-topic links unless
                 an admin okays it.
               </StyledText>
               <StyledText component="li" type="body-large">
-                Protect privacy and safety: Don’t share personal details (yours or others’) without
+                <b>Protect privacy and safety</b>: Don’t share personal details (yours or others’) without
                 consent.
               </StyledText>
               <StyledText component="li" type="body-large">
-                Respect the law and creators: Share only what you have rights to; follow copyright
+                <b>Respect the law and creators</b>: Share only what you have rights to; follow copyright
                 and intellectual property rules. Public discussion of illegal activity, including
                 placing nodes where you lack permission, hurts our ability to maintain goodwill with
                 the groups graciously hosting our nodes.
               </StyledText>
               <StyledText component="li" type="body-large">
-                Ask or report: If something seems off, report it or message the admins. Sales or
+                <b>Ask or report</b>: If something seems off, report it or message the admins. Sales or
                 fundraising need prior admin approval.
               </StyledText>
             </Box>
