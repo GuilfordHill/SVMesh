@@ -1,7 +1,10 @@
 import { Box, Typography, Card, CardContent, CardActionArea } from "@mui/material";
-import { StyledText, SimpleHero } from "../components/ui";
+import { StyledText, SimpleHero, StyledLink } from "../components/ui";
 import susquehannaImage from "../assets/susquehanna-valley.jpg";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import mallaDashImage from "../assets/malla-dash.png";
+import meshmonitorDashImage from "../assets/meshmonitor-dash.png";
+import meshviewDashImage from "../assets/meshview-dash.png";
 
 // Page data for the Dashboards page
 const pageData = {
@@ -20,18 +23,21 @@ const dashboards = [
     description: "Logs Meshtastic packets from the Susquehanna Valley mesh network.",
     url: "https://malla.susme.sh/map",
     id: "coverage-map",
+    image: mallaDashImage,
   },
   {
     title: "Mesh Monitor",
     description: "Map of nodes seen in the Susquehanna Valley mesh network.",
     url: "https://meshmonitor.susme.sh/#nodes",
     id: "node-monitor",
+    image: meshmonitorDashImage,
   },
   {
     title: "MeshView",
     description: "Simple map of nodes and conversations in the Susquehanna Valley mesh network.",
     url: "https://meshview.susme.sh/map",
     id: "topology-map",
+    image: meshviewDashImage,
   },
 ];
 
@@ -105,6 +111,16 @@ export default function Dashboards() {
                     justifyContent: "flex-start",
                   }}
                 >
+                  <Box
+                    component="img"
+                    src={dashboard.image}
+                    alt={dashboard.title}
+                    sx={{
+                      width: "100%",
+                      height: "200px",
+                      objectFit: "cover",
+                    }}
+                  />
                   <CardContent
                     sx={{
                       flexGrow: 1,
@@ -151,8 +167,45 @@ export default function Dashboards() {
             }}
           >
             Need help interpreting the data? Join us by visiting our{" "}
-            <a href="/socials">socials page</a>, and chat with the community!
+            <StyledLink href="/socials">socials page</StyledLink>, and chat with the community!
           </StyledText>
+
+          <Box sx={{ mt: 6 }}>
+            <StyledText type="heading" component="h2" sx={{ mb: 3, textAlign: "center" }}>
+              Backbone Nodes Map
+            </StyledText>
+
+            <Box
+              sx={{
+                width: "100%",
+                height: "600px",
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 1,
+                overflow: "hidden",
+              }}
+            >
+              <iframe
+                src="https://susme.sh/"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  border: "none",
+                }}
+                title="SVMesh Dashboard"
+              />
+            </Box>
+
+            <StyledText type="body" sx={{ mt: 2, textAlign: "center", color: "text.secondary" }}>
+              This map displays current and upcoming backbone nodes on the mesh network, showing the
+              infrastructure that helps maintain connectivity across the Susquehanna Valley. You can
+              visit the full site{" "}
+              <StyledLink href="https://susme.sh/" target="_blank" rel="noopener noreferrer">
+                here
+              </StyledLink>
+              .
+            </StyledText>
+          </Box>
         </Box>
       </Box>
     </>
