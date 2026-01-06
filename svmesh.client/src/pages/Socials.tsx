@@ -123,41 +123,26 @@ export default function Socials() {
             </StyledText>
             <Box component="ul" sx={{ pl: 3, m: 0 }}>
               <StyledText component="li" type="body-large">
-                Be nice: Treat everyone with kindness and respect. No personal attacks, harassment,
-                or discriminatory language based on race, gender, religion, or other identities.
-                Foul language is acceptable, but content promoting hate, violence, or bullying is
-                strictly prohibited.
+                Be kind and civil: Respect everyone. No harassment, hate, bullying, or aggressive
+                behavior. Disagreements are fine—keep them constructive.
               </StyledText>
               <StyledText component="li" type="body-large">
-                No spam: Avoid excessive self-promotion, advertisements, or irrelevant links unless
-                approved by admins.
+                Stay on-topic, no spam: Avoid ads, excessive self-promo, or off-topic links unless
+                an admin okays it.
               </StyledText>
               <StyledText component="li" type="body-large">
-                Keep civil: Disagreements are fine, but keep discussions constructive. No
-                name-calling or aggressive behavior.
+                Protect privacy and safety: Don’t share personal details (yours or others’) without
+                consent.
               </StyledText>
               <StyledText component="li" type="body-large">
-                Don't share personal information: Protect privacy, do not share personal details of
-                yourself or others without consent.
+                Respect the law and creators: Share only what you have rights to; follow copyright
+                and intellectual property rules. Public discussion of illegal activity, including
+                placing nodes where you lack permission, hurts our ability to maintain goodwill with
+                the groups graciously hosting our nodes.
               </StyledText>
               <StyledText component="li" type="body-large">
-                Report issues: Use the report feature or message admins directly for rule violations
-                or concerns.
-              </StyledText>
-              <StyledText component="li" type="body-large">
-                No unauthorized sales or fundraising: Sales or fundraising posts require prior admin
-                approval.
-              </StyledText>
-              <StyledText component="li" type="body-large">
-                Respect the law: Only share content you have the right to post, following copyright
-                and intellectual property laws.
-              </StyledText>
-              <StyledText component="li" type="body-large">
-                No sharing or promoting illegal activities: This is a public forum, and public
-                discussion of illegal activities, including placing nodes on property you do not own
-                or have permission to use, can harm our ability to maintain and build goodwill with
-                local governments, schools, and private organizations that currently host, or may
-                consider hosting, nodes on our behalf.
+                Ask or report: If something seems off, report it or message the admins. Sales or
+                fundraising need prior admin approval.
               </StyledText>
             </Box>
           </Stack>
