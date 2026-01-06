@@ -80,13 +80,6 @@ COPY --chown=appuser:appgroup pages/ /app/wwwroot/content/pages/
 RUN mkdir -p /app/wwwroot/content/updates /app/data && \
     chown -R appuser:appgroup /app/wwwroot/content /app/data
 
-# Copy default updates content to a separate location
-COPY --chown=appuser:appgroup updates/ /app/updates.default/
-
-# Copy the entrypoint script
-COPY --chown=appuser:appgroup docker-entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-entrypoint.sh
-
 # Remove any unnecessary files in one command
 RUN find /app -type f \( -name "*.pdb" -o -name "*.xml" \) -delete
 
@@ -106,5 +99,4 @@ ENV ASPNETCORE_ENVIRONMENT=Production \
     DOTNET_RUNNING_IN_CONTAINER=true \
     DOTNET_SYSTEM_GLOBALIZATION_INVARIANT=false
 
-ENTRYPOINT ["/usr/local/bin/docker-entrypoint.sh"]
 CMD ["dotnet", "SVMesh.Server.dll"]
