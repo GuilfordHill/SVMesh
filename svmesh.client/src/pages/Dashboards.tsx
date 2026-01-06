@@ -5,6 +5,7 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import mallaDashImage from "../assets/malla-dash.png";
 import meshmonitorDashImage from "../assets/meshmonitor-dash.png";
 import meshviewDashImage from "../assets/meshview-dash.png";
+import susmeshDashImage from "../assets/susmesh-dash.jpg";
 
 // Page data for the Dashboards page
 const pageData = {
@@ -38,6 +39,14 @@ const dashboards = [
     url: "https://meshview.susme.sh/map",
     id: "topology-map",
     image: meshviewDashImage,
+  },
+  {
+    title: "Backbone Map",
+    description:
+      "Current and upcoming backbone nodes on the mesh network, showing the infrastructure that maintains connectivity across the Susquehanna Valley.",
+    url: "https://susme.sh/",
+    id: "backbone-map",
+    image: susmeshDashImage,
   },
 ];
 
@@ -78,7 +87,7 @@ export default function Dashboards() {
               gridTemplateColumns: {
                 xs: "1fr",
                 sm: "repeat(2, 1fr)",
-                md: "repeat(3, 1fr)",
+                md: "repeat(4, 1fr)",
               },
               gap: { xs: 2, md: 3 },
             }}
@@ -169,43 +178,6 @@ export default function Dashboards() {
             Need help interpreting the data? Join us by visiting our{" "}
             <StyledLink href="/socials">socials page</StyledLink>, and chat with the community!
           </StyledText>
-
-          <Box sx={{ mt: 6 }}>
-            <StyledText type="heading" component="h2" sx={{ mb: 3, textAlign: "center" }}>
-              Backbone Nodes Map
-            </StyledText>
-
-            <Box
-              sx={{
-                width: "100%",
-                height: "600px",
-                border: "1px solid",
-                borderColor: "divider",
-                borderRadius: 1,
-                overflow: "hidden",
-              }}
-            >
-              <iframe
-                src="https://susme.sh/"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  border: "none",
-                }}
-                title="SVMesh Dashboard"
-              />
-            </Box>
-
-            <StyledText type="body" sx={{ mt: 2, textAlign: "center", color: "text.secondary" }}>
-              This map displays current and upcoming backbone nodes on the mesh network, showing the
-              infrastructure that helps maintain connectivity across the Susquehanna Valley. You can
-              visit the full site{" "}
-              <StyledLink href="https://susme.sh/" target="_blank" rel="noopener noreferrer">
-                here
-              </StyledLink>
-              .
-            </StyledText>
-          </Box>
         </Box>
       </Box>
     </>

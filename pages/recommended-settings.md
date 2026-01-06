@@ -48,13 +48,13 @@ We strongly encourage adherence to these settings. Approximately 75% of traffic 
 
 ### LoRa
 
-| Option         | Recommended Config | Notes                                              |
-| -------------- | ------------------ | -------------------------------------------------- |
-| Modem Preset   | `LONG_FAST`        | Will change in the near future                     |
-| Hop limit      | `5`                | Do not set higher than `6`.                        |
-| Frequency Slot | `20`               | Default value. Can also be set to `0`.             |
-| Ignore MQTT    | `True`             | Enabled on most `ROUTER` nodes in the mesh.        |
-| OK to MQTT     | `True`             | Enable to appear on online tools. Disable to hide. |
+| Option         | Recommended Config | Notes                                                             |
+| -------------- | ------------------ | ----------------------------------------------------------------- |
+| Modem Preset   | `LONG_FAST`        | Will change in the near future                                    |
+| Hop limit      | `5`                | Do not set higher than `6`.                                       |
+| Frequency Slot | `20`               | Default value. Can also be set to `0`.                            |
+| Ignore MQTT    | `True`             | Prevents MQTT saturation. Only disable if using a private broker. |
+| OK to MQTT     | `True`             | Enable to appear on online tools. Disable to hide.                |
 
 ### Telemetry Modules
 

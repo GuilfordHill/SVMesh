@@ -21,7 +21,7 @@ The following list includes pre-built nodes that have been tested and used succe
 - **Muzi Works R1 Neo**: A premium mobile node featuring fast USB-C charging, GPS, battery safety management, and a built-in buzzer.
 - **WisMesh Repeater Mini**: A turnkey option well suited for use as a client base node, with limited modularity for additional sensors.
 
-These are not the only nodes available. Other devices on the market may better match your specific needs or preferences. We encourage you to explore available options and ask for input on our Discord if you are unsure which device is right for you.
+These are not the only nodes available. Other devices on the market may better match your specific needs or preferences. We encourage you to explore available options and ask for input on our [socials](/socials) if you are unsure which device is right for you.
 
 ### Development Boards
 
@@ -47,4 +47,4 @@ After flashing, power on your node. Before it can transmit, you must set your re
 A lot of newcomers get intrigued with running Meshtastic in HAM mode. Not only does this mode require an amateur license to use, it also is incompatible with our current mesh due to the lack of encryption. Do not enable HAM (Amateur radio) mode unless you know what you're doing.
 ::warning
 
-Once the node has restarted, visit our [Recommended Settings](/recommended-settings) page to apply the current channel configuration required to join the mesh. After these settings are applied, your node will be fully connected and ready for use.
+Once the node has restarted, visit our [Recommended Settings](/recommended-settings) page to apply the current channel configuration required to join the mesh. After these settings are applied, your node will be fully connected and ready for use. If you have any questions, be sure to reach out on our [socials](/socials)! We are happy to help.
