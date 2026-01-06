@@ -2,18 +2,6 @@
 
 This guide explains the markdown formatting features available for SVMesh pages and updates, including special banner components for warnings, errors, and information.
 
-## Table of Contents
-
-- [Basic Markdown Syntax](#basic-markdown-syntax)
-- [Special Banner Components](#special-banner-components)
-- [Images and Media](#images-and-media)
-- [Code Blocks](#code-blocks)
-- [Frontmatter Configuration](#frontmatter-configuration)
-- [Page vs Update Structure](#page-vs-update-structure)
-- [Best Practices](#best-practices)
-- [Troubleshooting](#troubleshooting)
-- [Quick Reference](#quick-reference)
-
 ## Basic Markdown Syntax
 
 SVMesh supports standard markdown formatting for all content.

@@ -1,6 +1,6 @@
 # Content Authoring Guide
 
-Markdown content lives in two folders that are mounted into the app container:
+Markdown content lives in two folders:
 
 - `pages/` -> served at `/content/pages/<slug>.md`
   - `pages/knowledgebase` -> served at `/content/pages/knowledgebase/<slug>.md`
@@ -17,7 +17,7 @@ subtitle: "Optional subtitle"
 heroImage: "susquehanna-valley.jpg" # optional, see assets map in the client
 rightImage: "meshtastic-powered.png" # optional, home page only
 rightImageAlt: "Alt text" # optional
-attributionUrl: "https://example.com" # optional
+attributionUrl: "https://example.com" # please attribute images from the internet and make sure their license allows use.
 ---
 
 # Heading
@@ -43,7 +43,3 @@ Content here
 - File names must be alphanumeric with dashes/underscores and end in `.md` (enforced by the API).
 - Avoid duplicate slugs; the slug is the file name without `.md`.
 - Keep images referenced in `pages/` or `updates/` in the `svmesh.client/src/assets` map when needed.
-
-## Deployment notes
-
-- In containers, `pages/` and `updates/` are mounted read-only to `/app/wwwroot/content/pages` and `/app/wwwroot/content/updates`.
