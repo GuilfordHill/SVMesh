@@ -101,4 +101,4 @@ Logs/
 # Content directories are now external
 # Remove these from ignore so they're tracked in git
 # pages/
-# updates/
+updates/
