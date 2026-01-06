@@ -1,16 +1,9 @@
-import {
-  Box,
-  Card,
-  CardContent,
-  Chip,
-  Collapse,
-  IconButton,
-} from "@mui/material";
+import { Box, Card, CardContent, Chip, Collapse, IconButton } from "@mui/material";
 import { useState } from "react";
 import ReactMarkdown from "react-markdown";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import ExpandLessIcon from "@mui/icons-material/ExpandLess";
-import { StyledText } from "../ui";
+import { StyledText, StyledLink } from "../ui";
 import type { UpdatePost } from "../../utils/markdown";
 
 interface UpdateCardProps {
@@ -18,10 +11,7 @@ interface UpdateCardProps {
   showFullContent?: boolean;
 }
 
-export default function UpdateCard({
-  post,
-  showFullContent = false,
-}: UpdateCardProps) {
+export default function UpdateCard({ post, showFullContent = false }: UpdateCardProps) {
   const [expanded, setExpanded] = useState(showFullContent);
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString("en-US", {
@@ -79,9 +69,7 @@ export default function UpdateCard({
           </StyledText>
 
           {!showFullContent && (
-            <Box
-              sx={{ display: "flex", alignItems: "center", mt: 1, ml: -0.75 }}
-            >
+            <Box sx={{ display: "flex", alignItems: "center", mt: 1, ml: -0.75 }}>
               <IconButton
                 onClick={() => setExpanded(!expanded)}
                 size="small"
@@ -149,7 +137,21 @@ export default function UpdateCard({
                 },
               }}
             >
-              <ReactMarkdown>{post.content}</ReactMarkdown>
+              <ReactMarkdown
+                components={{
+                  a: ({ href, children }: any) => (
+                    <StyledLink
+                      href={href || "#"}
+                      target={href?.startsWith("http") ? "_blank" : undefined}
+                      rel={href?.startsWith("http") ? "noopener noreferrer" : undefined}
+                    >
+                      {children}
+                    </StyledLink>
+                  ),
+                }}
+              >
+                {post.content}
+              </ReactMarkdown>
             </Box>
           </Collapse>
         </Box>

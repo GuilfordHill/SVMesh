@@ -5,8 +5,8 @@ import { forwardRef } from "react";
 import type { LinkProps } from "@mui/material/Link";
 
 const BaseLink = styled(Link)(({ theme }) => ({
-  color: theme.palette.primary.main,
-  textDecoration: "none",
+  color: theme.palette.secondary.main,
+  textDecoration: "underline",
   fontWeight: 500,
   borderBottom: `1px solid transparent`,
   transition: "all 0.2s ease-in-out",
@@ -16,7 +16,7 @@ const BaseLink = styled(Link)(({ theme }) => ({
   "&:hover": {
     color: theme.palette.primary.dark,
     borderBottomColor: "currentColor",
-    textDecoration: "none",
+    textDecoration: "underline",
   },
 }));
 
@@ -26,15 +26,16 @@ const LinkIcon = styled(OpenInNewRoundedIcon)({
   opacity: 0.75,
 });
 
-// Add a small open-in-new style indicator to make links stand out
 const StyledLink = forwardRef<HTMLAnchorElement, LinkProps>(function StyledLink(
-  { children, ...props },
+  { children, href, ...props },
   ref
 ) {
+  const isExternalLink = href?.startsWith("http://") || href?.startsWith("https://");
+
   return (
-    <BaseLink ref={ref} {...props}>
+    <BaseLink ref={ref} href={href} {...props}>
       <span>{children}</span>
-      <LinkIcon />
+      {isExternalLink && <LinkIcon />}
     </BaseLink>
   );
 });

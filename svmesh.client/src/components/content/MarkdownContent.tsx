@@ -2,7 +2,7 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import { StyledText, StyledLink, WarningBanner } from "../ui";
 import { Box } from "@mui/material";
-import NetworkDiagram from "./NetworkDiagram";
+import TopologyDiagram from "./TopologyDiagram";
 
 interface MarkdownContentProps {
   content: string;
@@ -335,7 +335,7 @@ export default function MarkdownContent({ content }: MarkdownContentProps) {
         }
 
         if (part.type === "diagram") {
-          return <NetworkDiagram key={index} content={part.content} />;
+          return <TopologyDiagram key={index} />;
         }
 
         return (
