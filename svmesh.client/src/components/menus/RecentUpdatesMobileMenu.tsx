@@ -57,11 +57,17 @@ export default function RecentUpdatesMobileMenu({ posts, error }: RecentUpdatesM
 
   const latestPost = posts[0];
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      month: "short",
-      day: "numeric",
-      year: "numeric",
-    });
+    // Parse the date string as YYYY-MM-DD and create a date at midnight local time
+    // to avoid timezone offset issues
+    const [year, month, day] = dateString.split("-");
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toLocaleDateString(
+      "en-US",
+      {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }
+    );
   };
 
   return (
@@ -138,19 +144,17 @@ export default function RecentUpdatesMobileMenu({ posts, error }: RecentUpdatesM
             maxHeight: "85vh",
             borderTopLeftRadius: "16px",
             borderTopRightRadius: "16px",
+            display: "flex",
+            flexDirection: "column",
           },
         }}
       >
-        <Box sx={{ p: 2 }}>
+        <Box sx={{ p: 2, borderBottom: "1px solid", borderColor: "divider" }}>
           <Box
             sx={{
               display: "flex",
               justifyContent: "space-between",
               alignItems: "center",
-              mb: 2,
-              pb: 1,
-              borderBottom: "1px solid",
-              borderColor: "divider",
             }}
           >
             <StyledText type="subheading">Recent Updates</StyledText>
@@ -158,13 +162,13 @@ export default function RecentUpdatesMobileMenu({ posts, error }: RecentUpdatesM
               <CloseIcon />
             </IconButton>
           </Box>
-
-          <Stack spacing={2} sx={{ overflowY: "auto", maxHeight: "70vh" }}>
-            {posts.map((post) => (
-              <UpdateCard key={post.slug} post={post} showFullContent={false} />
-            ))}
-          </Stack>
         </Box>
+
+        <Stack spacing={2} sx={{ overflowY: "auto", flex: 1, p: 2 }}>
+          {posts.map((post) => (
+            <UpdateCard key={post.slug} post={post} showFullContent={false} />
+          ))}
+        </Stack>
       </Drawer>
     </>
   );

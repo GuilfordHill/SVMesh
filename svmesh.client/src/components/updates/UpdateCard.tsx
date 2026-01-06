@@ -14,11 +14,17 @@ interface UpdateCardProps {
 export default function UpdateCard({ post, showFullContent = false }: UpdateCardProps) {
   const [expanded, setExpanded] = useState(showFullContent);
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
+    // Parse the date string as YYYY-MM-DD and create a date at midnight local time
+    // to avoid timezone offset issues
+    const [year, month, day] = dateString.split("-");
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day)).toLocaleDateString(
+      "en-US",
+      {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      }
+    );
   };
 
   return (
