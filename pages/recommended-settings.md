@@ -9,8 +9,6 @@ attributionUrl: "https://meshtastic.org/"
 
 The Susquehanna Valley Mesh is currently operating on the default `LongFast` LoRa preset, so no additional channel configuration is required to connect at this time. This will change in the near future, as we are experiencing increased channel utilization and congestion on the current preset. Join us on our [socials](/socials) to stay informed as we begin planning and executing a migration to a new preset.
 
-As part of this upcoming migration, the Susquehanna Valley Mesh will begin distributing recommended ignore lists for nodes that are excessively transmitting on the mesh. We will make repeated attempts to contact the owner of any node before adding it to the ignore list. With the mesh growing at its current pace and the limited bandwidth available on these radio bands, it is critical that we reduce unnecessary transmit time wherever possible.
-
 ## Role Settings
 
 Our [Knowledgebase](/knowledgebase/the-architecture-of-svmesh) contains a detailed explanation of node roles and how to determine which role best fits your deployment. Of all the settings listed on this page, selecting the correct role for your node is the most important step you can take to preserve overall mesh health.
@@ -75,5 +73,8 @@ Please disable the `Environment metrics` and `Air Quality metrics` modules if yo
 | Neighbor Info enabled | `False`            |
 
 The Neighbor Info module has been significantly limited in newer firmware releases. For most deployments, we recommend disabling it entirely.
+
+## Ignore List
+The Susquehanna Valley Mesh maintains a [recommended ignore list](/knowledgebase/ignore-list) for nodes that are excessively transmitting on the mesh. We make repeated attempts to contact the owner of any node before adding it to the list. We highly recommend ignoring any nodes in your node database(s) that appear on the list. With the mesh growing at its current pace and the limited bandwidth available on these radio bands, it is critical that we reduce unnecessary transmit time wherever possible.
 
 If you have any questions or need help configuring your node, connect with us on our [socials](/socials). The more we collaborate and follow shared guidelines, the stronger and more reliable the mesh becomes for everyone in the Valley.
