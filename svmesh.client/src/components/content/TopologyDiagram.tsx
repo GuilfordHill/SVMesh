@@ -18,20 +18,20 @@ const STATIC_DIAGRAM_STRUCTURE: { columns: DiagramColumn[]; hasHorizontalConnect
       columns: [
         null,
         null,
-        { type: "backbone", label: "Tower node" },
-        { type: "base", label: "Rooftop node" },
-        { type: "ingress", label: "Other nodes" },
+        { type: "backbone", label: "ROUTER" },
+        { type: "base", label: "CLIENT_BASE" },
+        { type: "ingress", label: "CLIENT_MUTE" },
       ],
       hasHorizontalConnections: true,
     },
     {
       // Bottom row with backbone in same column as top backbone
       columns: [
-        { type: "ingress", label: "Your node" },
-        { type: "base", label: "Rooftop node" },
-        { type: "backbone", label: "Tower node" },
-        { type: "base", label: "Rooftop node" },
-        { type: "ingress", label: "Other nodes" },
+        { type: "ingress", label: "CLIENT_MUTE" },
+        { type: "base", label: "CLIENT_BASE" },
+        { type: "backbone", label: "ROUTER" },
+        { type: "base", label: "CLIENT_BASE" },
+        { type: "ingress", label: "CLIENT_MUTE" },
       ],
       hasHorizontalConnections: true,
     },

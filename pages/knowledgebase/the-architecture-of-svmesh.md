@@ -12,10 +12,10 @@ Backbone nodes form the backhaul of the mesh. Using high-powered radios and adva
 
 SVMesh currently operates several backbone nodes deployed on radio towers throughout the valley and surrounding regions, made possible by community groups donating tower space. These nodes are primarily built on Nebra outdoor Helium miners, modified with custom 1W LoRa HATs for transmission and appropriate RF filtering. They are powered via PoE and, being Linux-based, can be accessed, monitored, and updated remotely.
 
-Backbone nodes are ideally configured with the `ROUTER` role, as this grants them the highest priority for packet forwarding and routing decisions.
+Backbone nodes are ideally configured with the `ROUTER` role, as this grants them the highest priority for packet forwarding and routing decisions. As they are so critical to the mesh, backbone nodes require high uptime.
 
 ::critical[Consult The Community]
-It is strongly advised to coordinate with the community through our [socials](/socials) before deploying a potential backbone node. Backbone nodes are critical infrastructure, and improper deployment can negatively impact overall mesh health.
+It is **strongly advised** to coordinate with the community through our [socials](/socials) before deploying a potential backbone node. Backbone nodes are critical infrastructure, and improper deployment can negatively impact overall mesh health.
 ::critical
 
 ## Base Nodes
@@ -24,7 +24,7 @@ Base nodes can be thought of as the equivalent of a home HAM radio tower. Their 
 
 Base nodes should be installed as high as practical on the property, ideally above roof level, to maximize signal quality to nearby backbone nodes. These nodes work best when configured in `CLIENT_BASE` mode. Nodes operating in `CLIENT_BASE` will forward packets from favorited nodes with a zero-hop penalty, effectively acting as remote transmitters for those ingress devices.
 
-In areas with weaker coverage, particularly well-sited base nodes may also assist neighboring base nodes in reaching the backbone. If a base node has strong, direct links to multiple backbone nodes, `ROUTER_LATE` may be appropriate. However, community consultation is still strongly recommended before using this role.
+In areas with weaker coverage, particularly well-sited base nodes may also assist neighboring base nodes in reaching the backbone. If a base node has strong, direct links to multiple backbone nodes, `ROUTER_LATE` may be appropriate. However, community consultation is **still strongly recommended** before using this role.
 
 ## Ingress Nodes
 
